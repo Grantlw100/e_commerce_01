@@ -1,0 +1,8 @@
+/* Add this to your CSS file (navbar.css or footer.css) */
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it's above other content */
+}
