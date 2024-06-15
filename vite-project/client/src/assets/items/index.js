@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 import image1 from './sample-images-50/image1.png'
 import image2 from './sample-images-50/image2.png'
 import image3 from './sample-images-50/image3.png'
@@ -158,23 +160,24 @@ const addReviews = (item) => {
     return reviews;
 }
 
-const addImagesToIncludes = (includes) => {
-    return includes.map(include => {
-        const images = [];
-        for (let i = 0; i < Math.floor(Math.random() * 3) + 1; i++) { // Ensuring at least one image
-            images.push(itemImages[Math.floor(Math.random() * itemImages.length)]);
-        }
-        return {
-            ...include,
-            images: images
-        };
-    });
+const addImagesToIncludes = (include) => {
+    const images = [];
+    for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
+        images.push(itemImages[Math.floor(Math.random() * itemImages.length)]);
+    }
+    return images;
 };
 
-const addIncludes = () => {
-    return new Array(Math.floor(Math.random() * 5)).fill(null).map((_, i) => ({
-        id: `include${i + 1}`,
-        name: `Include Part ${i + 1}`
+const addIncludes = (itemPrice) => {
+    const includesCount = Math.floor(Math.random() * 5);
+    const pricePerInclude = (itemPrice / (includesCount || 1)).toFixed(2); // Ensure at least 1
+
+    return new Array(includesCount).fill(null).map((_, index) => ({
+        _id: `include${index + 1}`,
+        name: `Include Part ${index + 1}`,
+        images: addImagesToIncludes(),
+        description: `Part of main item, offering unique features.`,
+        price: pricePerInclude,
     }));
 };
 
@@ -186,10 +189,6 @@ const calculateAverageRating = (reviews) => {
 };
 
 const addDescriptionImages = () => {
-    if (!descriptionImages || descriptionImages.length === 0) {
-        console.warn("No description images found. Please add images to the descriptionImages array.")
-        return []
-    }
     const images = [];
     for (let i = 0; i < Math.floor(Math.random() * 5); i++) {
         images.push(descriptionImages[Math.floor(Math.random() * descriptionImages.length)]);
@@ -197,26 +196,25 @@ const addDescriptionImages = () => {
     return images;
 }
 
-const addPricesToIncludes = (item) => {
-    const includesCount = item.includes.length;
-    const pricePerInclude = (item.price / includesCount).toFixed(2);
+// const addPricesToIncludes = (item) => {
+//     const includesCount = item.includes.length;
+//     const pricePerInclude = (item.price / includesCount).toFixed(2);
 
-    item.includes = item.includes.map((include, index) => ({
-        ...include,
-        price: pricePerInclude,
-        description: `Part of ${item.name}, offering unique features.`,
-        name: `Part of ${item.name} - ${index + 1}`,
-        _id: index
-    }));
+//     item.includes = item.includes.map((include, index) => ({
+//         ...include,
+//         price: pricePerInclude,
+//         description: `Part of ${item.name}, offering unique features.`,
+//         name: `Part of ${item.name} - ${index + 1}`,
+//         _id: index
+//     }));
 
-    item.includesPrices = item.includes.map(include => include.price);
+//     item.includesPrices = item.includes.map(include => include.price);
 
-    // Optionally add images if they aren't already defined in `addImagesToIncludes`
-    item.includesImages = addImagesToIncludes(item.includes);
+//     // Optionally add images if they aren't already defined in `addImagesToIncludes`
+//     item.includesImages = addImagesToIncludes(item.includes);
 
-    return item;
-};
-
+//     return item;
+// };
 
 
 const mockItems = itemImages.map((image, index) => {
@@ -226,9 +224,14 @@ const mockItems = itemImages.map((image, index) => {
     const itemPrice = discountPercentage > 0 ? discountedPrice : price.toFixed(2);
     const reviews = addReviews({ name: `item${index + 1}` });
     const averageRating = calculateAverageRating(reviews);
-    let itemIncludes = addIncludes();
+    const includes = addIncludes(itemPrice); // Already includes images now
 
-    let item = {
+    // includes = includes.map(include => ({
+    //     ...include,
+    //     price: (itemPrice / includes.length).toFixed(2)
+    // }));
+
+    return {
         _id: index,
         image: image,
         name: `item${index + 1}`,
@@ -244,17 +247,23 @@ const mockItems = itemImages.map((image, index) => {
         loved: loved[index % loved.length],
         keywords: keywords.slice(index % keywords.length, (index % keywords.length) + 5),
         reviews: reviews,
-        includes: itemIncludes,
-        bundled: itemIncludes.length > 0,
+        includes: includes, // Now each include has its images
+        bundled: includes.length > 0,
         averageRating: averageRating
     };
-
-    item = addPricesToIncludes(item);
-    item.includes = addImagesToIncludes(item.includes);
-
-    return item;
 });
 
 
 
+
 export { mockItems, categories, promotions, prices, discounts, featured, loved, keywords };
+
+// const filePath = 'client/src/assets/items/mockItems.json';
+
+// fs.writeFile(filePath, JSON.stringify(mockItems, null, 2), (err) => {
+//     if (err) {
+//         console.error(err);
+//         return;
+//     }
+//     console.log(`Mock items data written to ${filePath}`);
+// });

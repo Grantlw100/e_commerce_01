@@ -1,19 +1,26 @@
 import React, { useMemo } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useGlobalState } from '../../utils/Store/GlobalState';  // Ensure correct path
+import { useNavigate } from 'react-router-dom';
 
 const formatPrice = (price) => {
     const number = Number(price);
     return isNaN(number) ? "0.00" : number.toFixed(2);
 };
 
+
 const CartModal = ({ show, handleClose }) => {
     const { state, removeFromCart, addToCart } = useGlobalState();  
     const { cart } = state;  
+    const navigate = useNavigate();
 
     const totalCost = useMemo(() => {
       return cart.reduce((total, item) => total + Number(item.price) * item.purchaseQuantity, 0);
     }, [cart]);
+
+    const navigateToCheckout = () => {
+        navigate('/checkout');
+    };
 
     return (
         <Modal show={show} onHide={handleClose}>
@@ -37,7 +44,7 @@ const CartModal = ({ show, handleClose }) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
-                <Button variant="primary" onClick={handleClose}>Checkout</Button>
+                <Button variant="primary" onClick={navigateToCheckout && handleClose}>Checkout</Button>
             </Modal.Footer>
         </Modal>
     );

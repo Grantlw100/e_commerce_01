@@ -1,7 +1,8 @@
 import {
     LOGIN,
     LOGOUT,
-    UPDATE_USER
+    UPDATE_USER,
+    DELETE_USER
 } from './user.actions';
 
 const userReducer = (state, action) => {
