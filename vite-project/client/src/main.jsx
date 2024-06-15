@@ -8,6 +8,7 @@ import Signup from './pages/signup';
 import Login from './pages/login';
 import Landing from './pages/landing';
 import Checkout from './pages/checkout';
+import CartPage from './pages/cart/index.jsx';
 import Categories from './pages/categories';
 import Products from './pages/products';
 import Shipping from './pages/shipping';
@@ -42,6 +43,9 @@ const router = createBrowserRouter([
       }, {
         path: '/signup',
         element: <Signup />
+      }, {
+        path: '/cart',
+        element: <CartPage />
       }, {
         path: '/orderHistory',
         element: <OrderHistory />

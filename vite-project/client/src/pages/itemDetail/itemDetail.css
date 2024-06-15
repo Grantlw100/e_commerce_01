@@ -1,0 +1,26 @@
+.image-list {
+    max-height: 400px; /* Adjust the height as needed */
+    overflow-y: auto;
+    padding: 0;
+    list-style: none;
+}
+
+.image-list li {
+    margin-bottom: 10px; /* Add some spacing between the images */
+}
+
+.image-list img {
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.image-list img:hover,
+.image-list li.active img {
+    border: 2px solid lightblue; /* Highlight border color */
+}
+
+.price-list p{
+    display: inline;
+    margin: 0;
+    gap: 10px;
+}
