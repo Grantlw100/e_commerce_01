@@ -21,15 +21,23 @@ const userSchema = new Schema({
         unique: true,
         match: [/.+@.+\..+/, 'Please enter a valid email address'],
     },
+    phone: {
+        type: String,
+        trim: true,
+    },
     password: {
         type: String,
         required: true,
         minlength: 8,
     },
     address: {
-        street: {
+        address1: {
             type: String,
             required: true,
+            trim: true,
+        },
+        address2: {
+            type: String,
             trim: true,
         },
         city: {
@@ -79,6 +87,22 @@ const userSchema = new Schema({
     cart: {
         type: Schema.Types.ObjectId,
         ref: 'UserCart',
+    },
+    darkMode: {
+        type: Boolean,
+        default: false,
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now,
+    },
+    modifiedDate: {
+        type: Date,
+        default: Date.now,
+    },
+    profilePicture: {
+        type: String,
+        default: 'https://via.placeholder.com/150',
     },
 });
 

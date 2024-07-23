@@ -2,14 +2,16 @@ const express = require('express');
 require('dotenv').config();
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const mongoose = require('mongoose');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
-
 const { typeDefs, resolvers } = require('./schemas');
-const db = require('./config/connection');
+const api = require('./routes');
+const db = require('./config/connection.mongo');
 
-const PORT = process.env.PORT || 3001;
 const app = express();
+const PORT = process.env.PORT || 3001;
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -21,6 +23,7 @@ const startApolloServer = async () => {
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+  app.use('/api', api);
 
   // Serve up static assets
   app.use('/images', express.static(path.join(__dirname, '../client/images')));

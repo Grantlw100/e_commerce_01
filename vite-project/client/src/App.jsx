@@ -4,7 +4,9 @@ import {
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
+  createUploadLink
 } from '@apollo/client';
+
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import NavBar from './components/Nav';
@@ -23,6 +25,9 @@ const httpLink = createHttpLink({
 
 const client = new ApolloClient({
   // link: authLink.concat(httpLink),
+  link: createUploadLink({
+    uri: '/graphql',
+  }),
   cache: new InMemoryCache(),
 });
 

@@ -5,6 +5,7 @@ const Order = require('./order');
 const Notification = require('./notification');
 const UserAlert = require('./useralerts');
 const UserCart = require('./userCart');
+const Content = require('./content');
 const [Keyword, Season, Promotion, Category] = require('./productDetails');
 
 module.exports = {
@@ -19,4 +20,5 @@ module.exports = {
     Season,
     Promotion,
     Category,
+    Content,
 };

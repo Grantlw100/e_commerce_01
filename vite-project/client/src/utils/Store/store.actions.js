@@ -11,4 +11,7 @@ export const UPDATE_KEYWORDS = 'UPDATE_KEYWORDS';
 export const UPDATE_CURRENT_CATEGORY = 'UPDATE_CURRENT_CATEGORY';
 export const UPDATE_FILTERS = 'UPDATE_FILTERS';
 export const OPEN_ITEM_DETAIL = 'OPEN_ITEM_DETAIL';
+export const UPDATE_CART = 'UPDATE_CART';
+export const UPDATE_PREFERENCES = 'UPDATE_PREFERENCES';
+export const LOAD_GLOBAL_STATE = 'LOAD_GLOBAL_STATE';
 //         cart[existingCartItemIndex].purchaseQuantity += action.item.purchaseQuantity;
