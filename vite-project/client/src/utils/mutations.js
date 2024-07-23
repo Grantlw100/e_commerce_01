@@ -445,6 +445,84 @@ export const DELETE_NOTIFICATION = gql`
   }
 `;
 
+// User Alert Mutations
+export const CREATE_USER_ALERT = gql`
+  mutation createUserAlert(input: UserAlertInput!, alertImage: Upload) {
+    createUserAlert(input: $input, alertImage: $alertImage) {
+      id
+      user {
+        id
+      }
+      alertText
+      alertDate
+      viewed
+      type
+    }
+  }
+`;
+
+export const UPDATE_USER_ALERT = gql`
+  mutation UpdateUserAlert($id: ID!, $input: UserAlertInput!, $alertImage: Upload) {
+    updateUserAlert(id: $id, input: $input, alertImage: $alertImage) {
+      id
+      user {
+        id
+      }
+      alertText
+      alertDate
+      viewed
+      type
+    }
+  }
+`;
+
+export const DELETE_USER_ALERT = gql`
+  mutation DeleteUserAlert($id: ID!) {
+    deleteUserAlert(id: $id)
+  }
+`;
+
+// Content Mutations
+export const CREATE_CONTENT = gql`
+  mutation CreateContent($input: ContentInput!, contentImages: [Upload!]) {
+    createContent(input: $input, contentImages: $contentImages) {
+      id
+      title
+      content
+      contentType
+      published
+      user {
+        id
+      }
+      createdDate
+      expirationDate
+    }
+  }
+`;
+
+export const UPDATE_CONTENT = gql`
+  mutation UpdateContent($id: ID!, $input: ContentInput!, contentImages: [Upload!]) {
+    updateContent(id: $id, input: $input, contentImages: $contentImages) {
+      id
+      title
+      content
+      contentType
+      published
+      user {
+        id
+      }
+      createdDate
+      expirationDate
+    }
+  }
+`;
+
+export const DELETE_CONTENT = gql`
+  mutation DeleteContent($id: ID!) {
+    deleteContent(id: $id)
+  }
+`;
+
 // Review Mutations
 export const CREATE_REVIEW = gql`
   mutation CreateReview($productId: ID!, $input: ReviewInput!) {
@@ -717,51 +795,6 @@ export const CLEAR_RECENTLY_VIEWED = gql`
   }
 `;
 
-// User Alert Mutations
-export const ADD_ALERT = gql`
-  mutation AddAlert($userId: ID!, $input: UserAlertInput!) {
-    addAlert(userId: $userId, input: $input) {
-      id
-      user {
-        id
-      }
-      alertText
-      alertDate
-      viewed
-      type
-    }
-  }
-`;
-
-export const UPDATE_USER_ALERT = gql`
-  mutation UpdateUserAlert($id: ID!, $input: UserAlertInput!) {
-    updateUserAlert(id: $id, input: $input) {
-      id
-      user {
-        id
-      }
-      alertText
-      alertDate
-      viewed
-      type
-    }
-  }
-`;
-
-export const DELETE_USER_ALERT = gql`
-  mutation DeleteUserAlert($id: ID!) {
-    deleteUserAlert(id: $id) {
-      id
-      user {
-        id
-      }
-      alertText
-      alertDate
-      viewed
-      type
-    }
-  }
-`;
 
 export const UPDATE_ALERT_VIEWED = gql`
   mutation UpdateAlertViewed($id: ID!, $viewed: Boolean!) {

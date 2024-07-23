@@ -260,13 +260,11 @@ type UserResponse {
     alertDate: String
     type: String!
     viewed: Boolean
-    alertImage: String
   }
 
   input ContentInput {
     title: String!
     content: String!
-    contentImages: [String]
     contentType: String!
     published: Boolean
     user: ID!
@@ -350,6 +348,12 @@ input PromotionInput {
     createNotification(input: NotificationInput): Notification
     updateNotification(id: ID!, input: NotificationInput): Notification
     deleteNotification(id: ID!): Boolean
+    createContent(input: ContentInput, contentImages: [Upload]): Content
+    updateContent(id: ID!, input: ContentInput, contentImages: [Upload]): Content
+    deleteContent(id: ID!): Boolean
+    createUserAlert(input: UserAlertInput, alertImage: Upload): UserAlert
+    updateUserAlert(id: ID!, input: UserAlertInput, alertImage: Upload): UserAlert
+    deleteUserAlert(id: ID!): Boolean
     sendNotificationToAll(input: NotificationInput): Boolean
     sendNotificationToUser(userId: ID!, input: NotificationInput): Boolean
     sendUserAlertToAll(input: UserAlertInput): Boolean
