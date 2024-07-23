@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer, useEffect, useCallback, useMemo 
 import reducer from './store.reducers';
 import { mockItems, categories, promotions, keywords } from '../../assets/items/index';
 import { useNavigate } from 'react-router-dom';
+import { saveGlobalState, loadGlobalState } from '../../../../server/utils/State-Cart-Mgmt-Utils/sessionManagement';
 
 export const StoreContext = createContext();
 const { Provider } = StoreContext;
@@ -40,6 +41,26 @@ export const StoreProvider = ({ children }) => {
     dispatch({ type: 'UPDATE_PROMOTIONS', promotions: promotions });
     dispatch({ type: 'UPDATE_KEYWORDS', keywords: keywords });
   }, []);
+
+  useEffect(() => {
+    const fetchGlobalState = async () => {
+      const globalSessionData = await loadGlobalState();
+      if (globalSessionData) {
+        dispatch({ type: 'LOAD_GLOBAL_STATE', globalSessionData });
+      }
+    }
+    fetchGlobalState();
+  }, []);
+
+  useEffect(() => {
+    if (state.cart.length > 0 || Object.keys(state.preferences).length > 0) {
+      saveGlobalState(state);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    saveGlobalState(state);
+  }, [state]);
 
   const removeFromCart = useCallback((id) => {
     dispatch({ type: 'REMOVE_FROM_CART', _id: id });

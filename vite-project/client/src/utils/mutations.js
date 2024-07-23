@@ -2,56 +2,58 @@ import { gql } from '@apollo/client';
 
 // User Mutations
 export const CREATE_USER = gql`
-  mutation CreateUser($input: UserInput!) {
-    createUser(input: $input) {
+  mutation CreateUser($input: UserInput!, $file: Upload!) {
+    createUser(input: $input, file: $file) {
       token
       user {
         id
         email
+        phone
         firstName
         lastName
         address {
+          address1
+          address2
           city
           state
           zip
           country
         }
+        profilePicture
       }
+      profileImageUrl
     }
   }
 `;
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($id: ID!, $input: UserInput!) {
-    updateUser(id: $id, input: $input) {
-      id
-      email
-      firstName
-      lastName
-      address {
-        city
-        state
-        zip
-        country
+  mutation UpdateUser($id: ID!, $input: UpdateUserInput!, $file: Upload) {
+    updateUser(id: $id, input: $input, file: $file) {
+      token
+      user {
+        id
+        email
+        phone
+        firstName
+        lastName
+        address {
+          address1
+          address2
+          city
+          state
+          zip
+          country
+        }
+        profilePicture
       }
+      profileImageUrl
     }
   }
 `;
 
 export const DELETE_USER = gql`
   mutation DeleteUser($id: ID!) {
-    deleteUser(id: $id) {
-      id
-      email
-      firstName
-      lastName
-      address {
-        city
-        state
-        zip
-        country
-      }
-    }
+    deleteUser(id: $id)
   }
 `;
 
@@ -77,19 +79,23 @@ export const LOGOUT_USER = gql`
 
 // Category Mutations
 export const CREATE_CATEGORY = gql`
-  mutation CreateCategory($name: String!) {
-    createCategory(name: $name) {
+  mutation CreateCategory($input: CategoryInput!, $file: Upload!) {
+    createCategory(input: $input, file: $file) {
       id
       name
+      image
+     description
     }
   }
 `;
 
 export const UPDATE_CATEGORY = gql`
-  mutation UpdateCategory($id: ID!, $name: String!) {
-    updateCategory(id: $id, name: $name) {
+  mutation UpdateCategory($id: ID!, $input: CategoryInput!, $file: Upload) {
+    updateCategory(id: $id, input: $input, file: $file) {
       id
       name
+      image
+     description
     }
   }
 `;
@@ -105,10 +111,12 @@ export const DELETE_CATEGORY = gql`
 
 // Keyword Mutations
 export const CREATE_KEYWORD = gql`
-  mutation CreateKeyword($name: String!) {
-    createKeyword(name: $name) {
+  mutation CreateKeyword($input: KeywordInput!, $file: Upload) {
+    createKeyword(input: $input, file: $file) {
       id
       name
+      description
+      image
     }
   }
 `;
@@ -118,6 +126,8 @@ export const UPDATE_KEYWORD = gql`
     updateKeyword(id: $id, name: $name) {
       id
       name
+      description
+      image
     }
   }
 `;
@@ -137,6 +147,10 @@ export const CREATE_SEASON = gql`
     createSeason(name: $name) {
       id
       name
+      startDate
+      endDate
+      image
+      description
     }
   }
 `;
@@ -146,6 +160,10 @@ export const UPDATE_SEASON = gql`
     updateSeason(id: $id, name: $name) {
       id
       name
+      startDate
+      endDate
+      image
+      description
     }
   }
 `;
@@ -168,6 +186,8 @@ export const CREATE_PROMOTION = gql`
       discount
       startDate
       endDate
+      image
+      description
     }
   }
 `;
@@ -180,6 +200,8 @@ export const UPDATE_PROMOTION = gql`
       discount
       startDate
       endDate
+      image
+      description
     }
   }
 `;
@@ -198,36 +220,14 @@ export const DELETE_PROMOTION = gql`
 
 // Product Mutations
 export const CREATE_PRODUCT = gql`
-  mutation CreateProduct($input: ProductInput!) {
-    createProduct(input: $input) {
+  mutation CreateProduct($input: ProductInput!, $productImage: Upload!, $descriptionImages: [Upload!]) {
+    createProduct(input: $input, productImage: $productImage, descriptionImages: $descriptionImages) {
       id
       name
       quickDescription
       description
       descriptionImages
-      image
-      discount
-      featured
-      loved
-      bundled
-      quantity
-      weight
-      dimensions {
-        length
-        width
-        height
-      }
-      taxCategory
-      includes {
-        id
-        name
-      }
-      price
       category {
-        id
-        name
-      }
-      keywords {
         id
         name
       }
@@ -239,41 +239,52 @@ export const CREATE_PRODUCT = gql`
         id
         name
       }
+      price
+      discount
+      featured
+      loved
+      viewed
+      keywords {
+        id
+        name
+      }
+      includes {
+        id
+        name
+      }
+      reviews {
+        id
+        userId
+        productId
+        reviewText
+        reviewAuthor
+        reviewProduct
+        reviewDate
+        reviewRating
+      }
+      bundled
+      image
+      quantity
+      weight
+      dimensions {
+        length
+        width
+        height
+      }
+      taxCategory
     }
   }
 `;
 
 export const UPDATE_PRODUCT = gql`
-  mutation UpdateProduct($id: ID!, $input: ProductInput!) {
-    updateProduct(id: $id, input: $input) {
+  mutation UpdateProduct($id: ID!, $input: ProductInput!, $productImage: Upload, $descriptionImages: [Upload]) {
+    updateProduct(id: $id, input: $input, productImage: $productImage, descriptionImages: $descriptionImages) {
       id
       name
       quickDescription
       description
       descriptionImages
-      image
-      discount
-      featured
-      loved
-      bundled
-      quantity
-      weight
-      dimensions {
-        length
-        width
-        height
-      }
-      taxCategory
-      includes {
-        id
-        name
-      }
-      price
       category {
-        id
-        name
-      }
-      keywords {
         id
         name
       }
@@ -285,16 +296,46 @@ export const UPDATE_PRODUCT = gql`
         id
         name
       }
+      price
+      discount
+      featured
+      loved
+      viewed
+      keywords {
+        id
+        name
+      }
+      includes {
+        id
+        name
+      }
+      reviews {
+        id
+        userId
+        productId
+        reviewText
+        reviewAuthor
+        reviewProduct
+        reviewDate
+        reviewRating
+      }
+      bundled
+      image
+      quantity
+      weight
+      dimensions {
+        length
+        width
+        height
+      }
+      taxCategory
     }
   }
 `;
 
 export const DELETE_PRODUCT = gql`
   mutation DeleteProduct($id: ID!) {
-    deleteProduct(id: $id) {
-      id
-      name
-    }
+    deleteProduct(id: $id)
   }
 `;
 

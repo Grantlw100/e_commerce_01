@@ -25,6 +25,9 @@ const userAlertSchema = new Schema({
         type: String,
         required: true,
     },
+    alertImage: {
+        type: String,
+    },
 });
 
 module.exports = mongoose.model('UserAlert', userAlertSchema);

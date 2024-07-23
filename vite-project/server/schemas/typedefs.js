@@ -1,4 +1,14 @@
 const typedefs = `
+
+scalar Upload
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
+}
+  
 type Product {
     id: ID!
     name: String!
@@ -37,16 +47,24 @@ type Product {
   type Category {
     id: ID!
     name: String!
+    image: String
+   description: String
   }
   
   type Keyword {
     id: ID!
     name: String!
+    image: String
+    description: String
   }
   
   type Season {
     id: ID!
     name: String!
+    startDate: String
+    endDate: String
+    image: String
+    description: String
   }
   
   type Promotion {
@@ -55,6 +73,8 @@ type Product {
     discount: Float!
     startDate: String
     endDate: String
+    image: String
+    description: String
   }
   
   type User {
@@ -62,6 +82,7 @@ type Product {
     firstName: String!
     lastName: String!
     email: String!
+    phone: String
     address: Address!
     viewedLanding: Boolean
     admin: Boolean
@@ -71,13 +92,33 @@ type Product {
     notifications: [Notification]
     userAlerts: [UserAlert]
     cart: UserCart
+    darkMode: Boolean
+    profilePicture: String
   }
   
+type Content {
+    id: ID!
+    title: String!
+    content: String!
+    contentImages: [String]
+    contentType: String!
+    published: Boolean
+    user: User!
+    createdDate: String
+    modifiedDate: String
+    expirationDate: String
+    expirationStatus: Boolean
+    viewed: Boolean
+  }
+
+
   type Address {
-    street: String!
+    address1: String!
+    address2: String
     city: String!
     state: String!
     zip: String!
+    country: String!
   }
 
   type Review {
@@ -86,6 +127,7 @@ type Product {
     reviewProduct: Product!
     reviewDate: String!
     reviewRating: Int!
+    reviewImages: [String]
   }
   
   type Dimensions {
@@ -121,13 +163,13 @@ type Product {
     alertDate: String!
     viewed: Boolean
     type: String!
+    alertImage: String
   }
 
   input ProductInput {
     name: String!
     quickDescription: String!
     description: String!
-    descriptionImages: [String]
     category: ID!
     season: ID
     promotion: ID
@@ -140,13 +182,18 @@ type Product {
     includes: [ID]
     reviews: [ReviewInput]
     bundled: Boolean
-    image: String!
     quantity: Int!
     weight: Float!
     dimensions: DimensionsInput
     taxCategory: String
   }
-  
+
+    input DimensionsInput {
+    length: Float!
+    width: Float!
+    height: Float!
+  }
+
   input ReviewInput {
     reviewText: String!
     reviewAuthor: ID!
@@ -154,27 +201,42 @@ type Product {
     reviewRating: Int!
   }
   
-  input DimensionsInput {
-    length: Float!
-    width: Float!
-    height: Float!
-  }
-  
   input UserInput {
     firstName: String!
     lastName: String!
     email: String!
+    phone: String
     password: String!
     address: AddressInput!
     viewedLanding: Boolean
     admin: Boolean
   }
 
+  input UpdateUserInput {
+    firstName: String
+    lastName: string 
+    email: String
+    phone: String
+    password: String
+    address: AddressInput
+    viewedLanding: Boolean
+    admin: Boolean
+    darkMode: Boolean
+}
+
+type UserResponse {
+    token: String
+    user: User
+    profileImageUrl: String
+}
+
   input AddressInput {
-    street: String!
+    address1: String!
+    address2: String
     city: String!
     state: String!
     zip: String!
+    country: String
   }
 
   input OrderInput {
@@ -189,13 +251,54 @@ type Product {
     user: ID!
     notificationText: String!
     type: String!
+    notificationDate: String
   }
 
   input UserAlertInput {
     user: ID!
     alertText: String!
+    alertDate: String
     type: String!
+    viewed: Boolean
+    alertImage: String
   }
+
+  input ContentInput {
+    title: String!
+    content: String!
+    contentImages: [String]
+    contentType: String!
+    published: Boolean
+    user: ID!
+    createdDate: String
+    expirationDate: String
+  }
+
+
+  input CategoryInput {
+    name: String!
+   description: String
+}
+
+input KeywordInput {
+    name: String!
+    description: String
+}
+
+input SeasonInput {
+    name: String!
+    startDate: String
+    endDate: String
+    description: String
+}
+
+input PromotionInput {
+    name: String!
+    discount: Float!
+    startDate: String
+    endDate: String
+    description: String
+}
 
   type Query {
     getAllProducts: [Product]
@@ -218,32 +321,39 @@ type Product {
   }
   
   type Mutation {
-    createProduct(input: ProductInput): Product
-    updateProduct(id: ID!, input: ProductInput): Product
-    deleteProduct(id: ID!): Boolean
-    createCategory(name: String!): Category
-    updateCategory(id: ID!, name: String!): Category
-    deleteCategory(id: ID!): Boolean
-    createKeyword(name: String!): Keyword
-    updateKeyword(id: ID!, name: String!): Keyword
-    deleteKeyword(id: ID!): Boolean
-    createSeason(name: String!): Season
-    updateSeason(id: ID!, name: String!): Season
+    uploadSingleFile(file: Upload!): String
+    uploadMultipleFiles(files: [Upload!]!): [String]
+    createUser(input: UserInput, file: Upload!): User!
+    updateUser(id: ID!, input: UpdateUserInput!, file: Upload): UserResponse!
+    deleteUser(id: ID!): Boolean!
+    createCategory(input: CategoryInput!, file: Upload!): Category
+    updateCategory(id: ID!, input: CategoryInput!, file: Upload): Category
+    deleteCategory(id: ID!): Boolean!
+    createKeyword(input: KeywordInput, file: Upload): Keyword
+    updateKeyword(id: ID!,input: KeywordInput, file: Upload): Keyword
+    deleteKeyword(id: ID!): Boolean!
+    createSeason(input: SeasonInput, file: Upload): Season
+    updateSeason(id: ID!, input: SeasonInput, file: Upload): Season
     deleteSeason(id: ID!): Boolean
-    createPromotion(name: String!, discount: Float!, startDate: String, endDate: String): Promotion
-    updatePromotion(id: ID!, name: String!, discount: Float!, startDate: String, endDate: String): Promotion
+    createPromotion(input: PromotionInput, file: Upload): Promotion
+    updatePromotion(id: ID!, input: PromotionInput, file: Upload): Promotion
     deletePromotion(id: ID!): Boolean
-    createUser(input: UserInput): AuthPayload
-    updateUser(id: ID!, input: UserInput): User
-    deleteUser(id: ID!): Boolean
+    createProduct(input: ProductInput!, productImage: Upload!, descriptionImages: [Upload]): Product
+    updateProduct(id: ID!, input: ProductInput, productImage: Upload!, descriptionImages: [Upload]): Product
+    deleteProduct(id: ID!): Boolean
     loginUser(email: String!, password: String!): AuthPayload
     logoutUser: Boolean
     createOrder(input: OrderInput): Order
     updateOrder(id: ID!, input: OrderInput): Order
     deleteOrder(id: ID!): Boolean
+    chargeOrder(userId: ID!, orderId: ID!, source: String!): Order
     createNotification(input: NotificationInput): Notification
     updateNotification(id: ID!, input: NotificationInput): Notification
     deleteNotification(id: ID!): Boolean
+    sendNotificationToAll(input: NotificationInput): Boolean
+    sendNotificationToUser(userId: ID!, input: NotificationInput): Boolean
+    sendUserAlertToAll(input: UserAlertInput): Boolean
+    sendUserAlertToUser(userId: ID!, input: UserAlertInput): Boolean
     createReview(productId: ID!, input: ReviewInput): Review
     updateReview(productId: ID!, input: ReviewInput): Review
     deleteReview(productId: ID!): Boolean
@@ -253,17 +363,13 @@ type Product {
     addItemToCart(userId: ID!, productId: ID!, quantity: Int!): UserCart
     removeItemFromCart(userId: ID!, productId: ID!): UserCart
     updateCartItemQuantity(userId: ID!, productId: ID!, quantity: Int!): UserCart
-    chargeOrder(userId: ID!, orderId: ID!, source: String!): Order
-    sendNotificationToAll(input: NotificationInput): Boolean
-    sendUserAlertToAll(input: UserAlertInput): Boolean
-    sendNotificationToUser(userId: ID!, input: NotificationInput): Boolean
-    sendUserAlertToUser(userId: ID!, input: UserAlertInput): Boolean
     addProductToLoved(userId: ID!, productId: ID!): User
     removeProductFromLoved(userId: ID!, productId: ID!): User
     addProductToRecentlyViewed(userId: ID!, productId: ID!): User
     removeProductFromRecentlyViewed(userId: ID!, productId: ID!): User
     clearRecentlyViewed(userId: ID!): User
   }
+
   `;
 
   module.exports = typedefs;

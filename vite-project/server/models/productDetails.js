@@ -8,6 +8,12 @@ const keywordSchema = new Schema({
         unique: true,
         trim: true,
     },
+    image: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
 });
 
 const seasonSchema = new Schema({
@@ -16,6 +22,18 @@ const seasonSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
+    },
+    startDate: {
+        type: Date,
+    },
+    endDate: {
+        type: Date,
+    },
+    image: {
+        type: String,
+    },
+    description: {
+        type: String,
     },
 });
 
@@ -38,6 +56,12 @@ const promotionSchema = new Schema({
     endDate: {
         type: Date,
     },
+    image: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
 });
 
 const categorySchema = new Schema({
@@ -46,6 +70,12 @@ const categorySchema = new Schema({
         required: true,
         unique: true,
         trim: true,
+    },
+    image: {
+        type: String,
+    },
+   description: {
+        type: String,
     },
 });
 

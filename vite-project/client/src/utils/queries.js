@@ -25,6 +25,55 @@ export const GET_ALL_PRODUCTS = gql`
   }
 `;
 
+export const GET_CATEGORIES = gql`
+  query {
+    getAllCategories {
+      id
+      name
+      image
+     description
+    }
+  }
+`;
+
+export const GET_PROMOTIONS = gql`
+  query {
+    getAllPromotions {
+      id
+      name
+      discount
+      startDate
+      endDate
+      image
+      description
+    }
+  }
+`;
+
+export const GET_KEYWORDS = gql`
+  query {
+    getAllKeywords {
+      id
+      name
+      image
+      description
+    }
+  }
+`;
+
+export const GET_SEASONS = gql`
+  query {
+    getAllSeasons {
+      id
+      name
+      startDate
+      endDate
+      image
+      description
+    }
+  }
+`;
+
 export const GET_PRODUCT_BY_ID = gql`
   query getProductById($id: ID!) {
     getProductById(id: $id) {
@@ -139,6 +188,8 @@ export const GET_ALL_KEYWORDS = gql`
     getAllKeywords {
       id
       name
+      image
+      description
     }
   }
 `;
@@ -148,6 +199,8 @@ export const GET_ALL_CATEGORIES = gql`
     getAllCategories {
       id
       name
+      image
+     description
     }
   }
 `;
@@ -157,6 +210,10 @@ export const GET_ALL_SEASONS = gql`
     getAllSeasons {
       id
       name
+      startDate
+      endDate
+      image
+      description
     }
   }
 `;
@@ -167,6 +224,10 @@ export const GET_ALL_PROMOTIONS = gql`
       id
       name
       discount
+      startDate
+      endDate
+      image
+      description
     }
   }
 `;
@@ -176,9 +237,11 @@ export const GET_USER_BY_ID = gql`
     getUserById(id: $id) {
       id
       email
+      phone
       name
       address {
-        street
+        address1
+        address2
         city
         state
         zip
@@ -343,7 +406,8 @@ export const GET_USER_BY_EMAIL = gql`
       email
       name
       address {
-        street
+        address1
+        address2
         city
         state
         zip

@@ -10,7 +10,10 @@ import {
   UPDATE_CART_QUANTITY,
   CLEAR_CART,
   TOGGLE_CART,
-  UPDATE_FILTERS
+  UPDATE_FILTERS,
+  UPDATE_CART,
+  UPDATE_PREFERENCES,
+  LOAD_GLOBAL_STATE,
 } from './store.actions';
 
 const reducer = (state, action) => {
@@ -159,6 +162,24 @@ const reducer = (state, action) => {
         ...state,
         itemDetail: action.itemDetails
       };
+    
+    case UPDATE_PREFERENCES:
+      return {
+        ...state,
+        preferences: action.preferences
+      };
+
+    case LOAD_GLOBAL_STATE:
+      return {
+        ...state,
+        ...action.globalSessionData
+      };
+
+    case UPDATE_CART:
+      return {
+        ...state,
+        cart: action.payload
+      }
 
     default:
       return state;
