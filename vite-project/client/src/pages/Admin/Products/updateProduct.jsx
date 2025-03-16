@@ -1,3 +1,4 @@
+import withAdminAuth from '../withAdminAuth';
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
@@ -304,4 +305,4 @@ const UpdateProductForm = ({ product, keywords, seasons, promotions, categories 
   );
 };
 
-export default UpdateProductForm;
+export default withAdminAuth(UpdateProductForm);

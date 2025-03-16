@@ -3,27 +3,27 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
-import Home from './pages/Home';
-import Signup from './pages/signup';
-import Login from './pages/login';
-import Landing from './pages/landing';
-import Checkout from './pages/checkout';
+import Home from './pages/Home/index.jsx';
+import Signup from './pages/signup/index.jsx';
+import Login from './pages/login/index.jsx';
+import Landing from './uncompletedPages/landing/index.jsx';
+import Checkout from './pages/checkout/index.jsx';
 import CartPage from './pages/cart/index.jsx';
-import Categories from './pages/categories';
-import Products from './pages/products';
-import Shipping from './pages/shipping';
-import ItemDetail from './pages/itemDetail';
-import Reviews from './pages/Reviews';
-import OrderHistory from './pages/OrderHistory';
-import About  from './pages/About';
-import Contact from './pages/Contact';
-import AdminDash from './pages/Admin/Dashboard';
-import AdminProducts from './pages/Admin/Products';
-import AdminOrders from './pages/Admin/Orders';
-import AdminUsers from './pages/Admin/Users';
-import AdminReviews from './pages/Admin/Reviews';
-import AdminCategories from './pages/Admin/Categories';
-import NoMatch from './pages/NoMatch';
+import Categories from './uncompletedPages/categories/index.jsx';
+import Products from './pages/products/index.jsx';
+import Shipping from './uncompletedPages/shipping/index.jsx';
+import ItemDetail from './pages/itemDetail/index.jsx';
+import Reviews from './uncompletedPages/Reviews/index.jsx';
+import OrderHistory from './uncompletedPages/OrderHistory/index.jsx';
+import About  from './uncompletedPages/About/index.jsx';
+import Contact from './pages/Contact/index.jsx';
+import AdminDash from './pages/Admin/Dashboard/index.jsx';
+import ProductForm from './pages/Admin/Products/index.jsx';
+import AdminProductDetails from './pages/Admin/productDetails/index.jsx';
+import AdminUsers from './pages/Admin/Users/index.jsx';
+// import AdminReviews from './pages/Admin/Reviews.jsx';
+import AdminAlertsNotifications from './pages/Admin/alertsNotifications/index.jsx';
+import NoMatch from './uncompletedPages/NoMatch/index.jsx';
 
 const router = createBrowserRouter([
   {
@@ -78,19 +78,22 @@ const router = createBrowserRouter([
         element: <AdminDash />
       }, {
         path: '/Admin/Products',
-        element: <AdminProducts />
-      }, {
-        path: '/Admin/Orders',
-        element: <AdminOrders />
+        element: <ProductForm />
+      // }, {
+      //   path: '/Admin/Orders',
+      //   element: <AdminOrders />
       }, {
         path: '/Admin/Users',
         element: <AdminUsers />
+      // }, {
+      //   path: '/Admin/Reviews',
+      //   element: <AdminReviews />
       }, {
-        path: '/Admin/Reviews',
-        element: <AdminReviews />
+        path: '/Admin/Alerts+Notifications',
+        element: <AdminAlertsNotifications />
       }, {
-        path: '/Admin/Categories',
-        element: <AdminCategories />
+        path: '/Admin/ProductDetails',
+        element: <AdminProductDetails />
       }
     ]
   }

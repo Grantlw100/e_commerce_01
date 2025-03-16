@@ -1,7 +1,7 @@
 import { Container, Row, Col, Nav, Navbar, DropdownButton, Dropdown } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import ItemDisplay from '../ItemDisplay';
-import { useGlobalState } from '../../utils/Store/GlobalState'; // Ensure this path is correct
+import ItemDisplay from '../ItemDisplay/index.jsx';
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx'; // Ensure this path is correct
 
 function ItemsContainer() {
     const { state } = useGlobalState(); // Accessing the global state

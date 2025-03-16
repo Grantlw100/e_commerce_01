@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { useGlobalState } from "../../utils/Store/GlobalState";
+import { useGlobalState } from "../../utils/Store/GlobalState.jsx";
 import { Button, Container, Row, Col, Card, Accordion } from "react-bootstrap";
 // import { formatPrice } from "../../utils/cart.helpers";
 // import { calculateShipping } from "../../utils/cart.helpers";

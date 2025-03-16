@@ -5,11 +5,11 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGlobalState } from "../../utils/Store/GlobalState";
+import { useGlobalState } from "../../utils/Store/GlobalState.jsx";
 
 const MultiPurposeItemDisplay = ({ items }) => {
     const navigate = useNavigate();
-  const { state, openItemDetail, addToCart, removeFromCart } = useGlobalState();
+  const { state, openItemDetail, addToCart, removeFromCart, toggleLoved } = useGlobalState();
   const { cart } = state;
   const itemsPerPage = 36; // Adjust as necessary
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +39,11 @@ const MultiPurposeItemDisplay = ({ items }) => {
       return item;
     });
     setLocalItems(updatedItems);
+  };
+
+  handleToggleLove = (item) => {
+    toggleLoved(item);
+
   };
 
   const pageCount = Math.ceil(items.length / itemsPerPage);
@@ -94,7 +99,11 @@ const MultiPurposeItemDisplay = ({ items }) => {
                   color: item.isLoved ? "pink" : "grey",
                   cursor: "pointer",
                 }}
-                onClick={() => toggleLove(item._id)}
+                onClick={() => {
+                  toggleLove(item._id)
+                  handleToggleLove(item)
+                  }
+                }
               />
               <p
                 style={{

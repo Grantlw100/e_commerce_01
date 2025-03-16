@@ -1,7 +1,8 @@
+import withAdminAuth from '../../withAdminAuth.jsx';
 import React, { useState } from 'react';
 import { Form, Button, Alert, Image } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { UPDATE_CATEGORY } from '../mutations'; // Ensure this path is correct
+import { UPDATE_CATEGORY } from '../../../../utils/mutations.js'; // Ensure this path is correct
 
 const UpdateCategoryForm = ({ category }) => {
   const [formData, setFormData] = useState({
@@ -81,4 +82,4 @@ const UpdateCategoryForm = ({ category }) => {
   );
 };
 
-export default UpdateCategoryForm;
+export default withAdminAuth(UpdateCategoryForm);

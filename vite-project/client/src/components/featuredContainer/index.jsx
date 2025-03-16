@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-import { useGlobalState } from '../../utils/Store/GlobalState';
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const style = {
@@ -16,7 +16,7 @@ const style = {
 
 const FeaturedItems = () => {
     const navigate = useNavigate();
-    const { state, addToCart, removeFromCart, openItemDetail } = useGlobalState();
+    const { state, addToCart, removeFromCart, openItemDetail, toggleLoved } = useGlobalState();
     const { items, cart } = state; // Accessing items from the global state
     const [featuredItems, setFeaturedItems] = useState([items.filter(item => item.featured && item)]); // Filtering featured items from global state
     
@@ -99,7 +99,10 @@ const FeaturedItems = () => {
                                 <FontAwesomeIcon 
                                     icon={item.isLoved ? solidHeart : regularHeart} 
                                     style={{ color: item.isLoved ? 'pink' : 'grey', cursor: 'pointer' }} 
-                                    onClick={() => toggleLove(item._id)}
+                                    onClick={() => {
+                                        toggleLoved(item);
+                                        toggleLove(item._id)
+                                    }}
                                 />
                                 <p className="text-muted">
                                 {item.discount > 0 ? (

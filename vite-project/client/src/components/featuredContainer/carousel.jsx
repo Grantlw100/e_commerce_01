@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-import { useGlobalState } from '../../utils/Store/GlobalState';
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const style = {

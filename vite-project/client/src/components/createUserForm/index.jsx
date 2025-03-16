@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { CREATE_USER } from '../mutations'; // Ensure this path is correct
+import { CREATE_USER } from '../../utils/mutations.js'; // Ensure this path is correct
 
 const CreateUserForm = () => {
   const [formData, setFormData] = useState({

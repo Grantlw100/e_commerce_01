@@ -1,7 +1,8 @@
+import withAdminAuth from '../../withAdminAuth.jsx';
 import React, { useState } from 'react';
 import { Form, Button, Alert, Image } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { UPDATE_KEYWORD } from '../mutations'; // Ensure this path is correct
+import { UPDATE_KEYWORD } from '../../../../utils/mutations.js'; // Ensure this path is correct
 
 const UpdateKeywordForm = ({ keyword }) => {
   const [formData, setFormData] = useState({
@@ -81,4 +82,4 @@ const UpdateKeywordForm = ({ keyword }) => {
   );
 };
 
-export default UpdateKeywordForm;
+export default withAdminAuth(UpdateKeywordForm);

@@ -3,7 +3,7 @@ import { Container, Row, Col, Pagination, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-import { useGlobalState } from '../../utils/Store/GlobalState';
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const style = {
@@ -16,7 +16,7 @@ const style = {
 
 const ItemDisplay = ({ category }) => {
     const navigate = useNavigate();
-    const { state, addToCart, removeFromCart, openItemDetail } = useGlobalState(); // Using items from global state
+    const { state, addToCart, removeFromCart, openItemDetail, toggleLoved } = useGlobalState(); // Using items from global state
     const { items, cart } = state; // Accessing items directly from the global state
     const itemsPerPage = 36;
     const [currentPage, setCurrentPage] = useState(1);
@@ -82,7 +82,10 @@ const ItemDisplay = ({ category }) => {
                             <FontAwesomeIcon 
                                 icon={item.isLoved ? solidHeart : regularHeart} 
                                 style={{ color: item.isLoved ? 'pink' : 'grey', cursor: 'pointer', display: 'inline'}}
-                                onClick={() => toggleLove(item._id)}
+                                onClick={() => {
+                                    toggleLove(item._id)
+                                    toggleLoved(item);
+                                }}
                             />
                             <p style={{backgroundColor: 'lightblue', padding: '5px', borderRadius: '5px'}}>{item.description}</p>
                             <p className="text-muted">

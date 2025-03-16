@@ -7,32 +7,48 @@
     "watch": "nodemon",
     "seed": "node config/seeds.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@apollo/server": "^4.7.2",
-    "@aws-sdk/client-s3": "^3.609.0",
-    "@aws-sdk/s3-request-presigner": "^3.609.0",
-    "apollo-server": "^3.13.0",
-    "aws-sdk": "^2.1655.0",
-    "bcrypt": "^4.0.1",
+    "@apollo/client": "^3.11.8",
+    "@apollo/server": "^4.11.0",
+    "@apollo/usage-reporting-protobuf": "^4.1.1",
+    "@apollo/utils.fetcher": "^3.1.0",
+    "@aws-sdk/client-s3": "^3.651.1",
+    "@aws-sdk/lib-dynamodb": "^3.658.1",
+    "@aws-sdk/s3-request-presigner": "^3.651.1",
+    "@envelop/core": "^5.1.1",
+    "@envelop/depth-limit": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "graphql": "^16.6.0",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.5.0",
+    "glob": "^11.0.0",
+    "graphql": "^16.9.0",
+    "graphql-depth-limit": "^1.1.0",
+    "graphql-middleware": "^6.1.35",
+    "graphql-query-complexity": "^1.0.0",
+    "graphql-shield": "^7.6.5",
     "graphql-upload": "^16.0.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongodb": "^6.8.0",
-    "mongoose": "^7.7.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.6.3",
     "multer": "^1.4.5-lts.1",
     "multer-s3": "^3.0.1",
-    "stripe": "^8.67.0"
+    "stripe": "^16.11.0",
+    "uuid": "^10.0.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^3.1.5"
+  },
+  "overrides": {
+    "rimraf": "6.0.1"
   },
   "description": ""
 }

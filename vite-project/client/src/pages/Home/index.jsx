@@ -1,10 +1,10 @@
 import { useUserContext } from '../../utils/User/UserState';
 import { Link, Navigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import FeaturedItems from '../../components/featuredContainer';
-import ImageContainer from '../../components/ImageContainer';
-import ItemsContainer from '../../components/itemContainer';
-import UserGreeting from '../../components/userGreeting';
+import FeaturedItems from '../../components/featuredContainer/index.jsx';
+import ImageContainer from '../../components/ImageContainer/index.jsx';
+import ItemsContainer from '../../components/itemContainer/index.jsx';
+import UserGreeting from '../../components/userGreeting/index.jsx';
 import { Container, Row, Col } from 'react-bootstrap'; 
 import './home.css';
 import {

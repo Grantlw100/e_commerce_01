@@ -1,5 +1,5 @@
 import {Navigate} from 'react-router-dom';
-import { useUserContext } from '../../utils/User/UserState';
+import { useUserContext } from '../../utils/User/UserState.jsx';
 
 const withAdminAuth = (Component) => {
     const AdminComponent = (props) => {

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
-import Filtered from '../../components/filtration'; // Ensure this path is correct
-import MultiPurposeItemDisplay from '../../components/multiPurposeItems'; // Ensure this path is correct
-import { useGlobalState } from '../../utils/Store/GlobalState'; // Ensure this path is correct
+import Filtered from '../../components/filtration/index.jsx'; // Ensure this path is correct
+import MultiPurposeItemDisplay from '../../components/multiPurposeItems/index.jsx'; // Ensure this path is correct
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx'; // Ensure this path is correct
 
 export default function Products() {
     const { state } = useGlobalState();
-    const { items, filters } = state;
+    const { items, filters, toggleLoved } = state;
     const [filteredItems, setFilteredItems] = useState([]);
     const [loading, setLoading] = useState(true);
 

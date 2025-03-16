@@ -1,11 +1,12 @@
+import withAdminAuth from '../withAdminAuth.jsx';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { Form, Button, Col, Row, Alert, ListGroup } from 'react-bootstrap';
-import { CREATE_PRODUCT, DELETE_PRODUCT } from '../../../utils/mutations';
-import { GET_ALL_PROMOTIONS, GET_ALL_CATEGORIES, GET_ALL_KEYWORDS, GET_ALL_SEASONS, GET_ALL_PRODUCTS } from '../../../utils/queries';
-import CreateProductForm from './createProductForm';
-import UpdateProductForm from './UpdateProductForm';
-import { useGlobalState } from '../../../utils/GlobalState';
+import { CREATE_PRODUCT, DELETE_PRODUCT } from '../../../utils/mutations.js';
+import { GET_ALL_PROMOTIONS, GET_ALL_CATEGORIES, GET_ALL_KEYWORDS, GET_ALL_SEASONS, GET_ALL_PRODUCTS } from '../../../utils/queries.js';
+import CreateProductForm from './createProductForm.jsx';
+import UpdateProductForm from './updateProduct.jsx';
+import { useGlobalState } from '../../../utils/Store/GlobalState.jsx';
 
 const ProductForm = () => {
   const { state } = useGlobalState();
@@ -98,4 +99,4 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
+export default withAdminAuth(ProductForm);

@@ -1,4 +1,3 @@
-const fs = require('fs');
 
 import image1 from './sample-images-50/image1.png'
 import image2 from './sample-images-50/image2.png'

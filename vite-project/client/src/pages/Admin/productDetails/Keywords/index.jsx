@@ -1,6 +1,7 @@
+import withAdminAuth from '../../withAdminAuth';
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { CREATE_KEYWORD } from './mutations';
+import { CREATE_KEYWORD } from '../../../../utils/mutations';
 import { Form, Button } from 'react-bootstrap';
 
 const CreateKeywordForm = () => {
@@ -73,4 +74,4 @@ const CreateKeywordForm = () => {
   );
 };
 
-export default CreateKeywordForm;
+export default withAdminAuth(CreateKeywordForm)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useGlobalState } from "../../utils/Store/GlobalState"; // Ensure this path is correct
+import { useGlobalState } from "../../utils/Store/GlobalState.jsx"; // Ensure this path is correct
 
 const Filtered = () => {
   const { state, updateFilters } = useGlobalState();

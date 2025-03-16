@@ -1,24 +1,29 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Card, Form, Alert } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
+import withAdminAuth from '../withAdminAuth.jsx';
 import {
   DELETE_CATEGORY,
   DELETE_KEYWORD,
   DELETE_PROMOTION,
   DELETE_SEASON,
-} from '../../../utils/mutations';
+} from '../../../utils/mutations.js';
 import {
   GET_ALL_CATEGORIES,
   GET_ALL_PROMOTIONS,
   GET_ALL_KEYWORDS,
   GET_ALL_SEASONS,
-} from '../../../utils/queries';
-import { CreateSeasonForm, UpdateSeasonForm } from './Seasons';
-import { CreatePromotionForm, UpdatePromotionForm } from './Promotions';
-import { CreateCategoryForm, UpdateCategoryForm } from './Categories';
-import { CreateKeywordForm, UpdateKeywordForm } from './Keywords';
+} from '../../../utils/queries.js';
+import CreateSeasonForm from './Seasons/index.jsx'
+import UpdateSeasonForm from './Seasons/updateseason.jsx';
+import CreatePromotionForm from './Promotions/index.jsx';
+import UpdatePromotionForm from './Promotions/updatepromo.jsx';
+import CreateCategoryForm from './Categories/index.jsx';
+import UpdateCategoryForm  from './Categories/updatecat.jsx';
+import CreateKeywordForm from './Keywords/index.jsx';
+import UpdateKeywordForm from './Keywords/updatekey.jsx';
 
-export default function AdminProductDetails() {
+function AdminProductDetails() {
   const [selectedDetail, setSelectedDetail] = useState('promotions');
   const [details, setDetails] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -150,3 +155,5 @@ export default function AdminProductDetails() {
     </Container>
   );
 };
+
+export default withAdminAuth(AdminProductDetails);

@@ -1,12 +1,12 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Button, Container, Form, Nav, Navbar, NavDropdown, Offcanvas, Modal } from 'react-bootstrap';
 import { useState, useMemo } from 'react';
-import { useUserContext } from '../../utils/User/UserState';
-import { useGlobalState } from '../../utils/Store/GlobalState';
+import { useUserContext } from '../../utils/User/UserState.jsx';
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import "./navbar.css";
-import CartModal from '../CartModal';
+import CartModal from '../CartModal/index.jsx';
 
 export default function NavBar() {
     const { user } = useUserContext();

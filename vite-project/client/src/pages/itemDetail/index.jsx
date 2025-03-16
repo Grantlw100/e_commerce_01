@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGlobalState } from '../../utils/Store/GlobalState';
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx';
 import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-import ZoomInModal from '../../components/zoomInModal';
+import ZoomInModal from '../../components/zoomInModal/index.jsx';
 import {useNavigate} from 'react-router-dom';
 import './itemDetail.css'
-import CarouselComponent from '../../components/featuredContainer/carousel';
+import CarouselComponent from '../../components/featuredContainer/carousel.jsx';
+import useProductInteraction from '../../utils/Analytics/analytics.utils.js/productInteraction.js';
 
 export default function ItemDetail() {
     const navigate = useNavigate();
     const { id } = useParams();
-    const { state, addToCart, removeFromCart, toggleLove, openItemDetail } = useGlobalState();
+    const { state, addToCart, removeFromCart, toggleLoved, openItemDetail } = useGlobalState();
     const { items } = state;
 
     const [item, setItem] = useState({ descriptionImages: [], includes: [] });
@@ -65,6 +66,7 @@ export default function ItemDetail() {
 
     const handleAddIncludeToCart = (include) => {
         addToCart(include);
+        useProductInteraction('handleAddIncludeToCart', include._id);
     }
 
     const handleOpenDetail = (item) => {
@@ -115,7 +117,8 @@ export default function ItemDetail() {
                     )}
                     <Button onClick={() => addToCart(item)}>Add to Cart</Button>
                     <Button onClick={() => removeFromCart(item._id)}>Remove from Cart</Button>
-                    <FontAwesomeIcon icon={item.isLoved ? solidHeart : regularHeart} onClick={() => toggleLove(item._id)} />
+                    <FontAwesomeIcon icon={item.isLoved ? solidHeart : regularHeart} onClick={() => 
+                        toggleLoved(item)} />
                 </Col>
             </Row>
             <Row style={{height: '500px',}} >

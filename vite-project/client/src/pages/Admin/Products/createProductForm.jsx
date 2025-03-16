@@ -1,3 +1,4 @@
+import withAdminAuth from '../withAdminAuth';
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_PRODUCT } from '../../../utils/mutations'; 
@@ -284,4 +285,4 @@ const CreateProductForm = ({ keywords, promotions, categories, seasons }) => {
   );
 };
 
-export default CreateProductForm;
+export default withAdminAuth(CreateProductForm);

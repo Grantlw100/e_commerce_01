@@ -1,7 +1,8 @@
+import withAdminAuth from '../../withAdminAuth.jsx';
 import React, { useState } from 'react';
 import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { CREATE_USER_ALERT } from '../mutations'; // Ensure this path is correct
+import { CREATE_ALERT } from '../../../../utils/mutations.js'; // Ensure this path is correct
 
 const CreateAlertForm = () => {
     const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ const CreateAlertForm = () => {
 
     const [validated, setValidated] = useState(false);
     const [file, setFile] = useState(null);
-    const [createAlert, { data, loading, error }] = useMutation(CREATE_USER_ALERT);
+    const [createAlert, { data, loading, error }] = useMutation(CREATE_ALERT);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -131,4 +132,4 @@ const CreateAlertForm = () => {
     );
 }
 
-export default CreateAlertForm;
+export default withAdminAuth(CreateAlertForm);

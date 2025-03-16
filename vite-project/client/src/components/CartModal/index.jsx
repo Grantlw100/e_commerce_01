@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useGlobalState } from '../../utils/Store/GlobalState';  // Ensure correct path
+import { useGlobalState } from '../../utils/Store/GlobalState.jsx';  // Ensure correct path
 import { useNavigate } from 'react-router-dom';
 
 const formatPrice = (price) => {

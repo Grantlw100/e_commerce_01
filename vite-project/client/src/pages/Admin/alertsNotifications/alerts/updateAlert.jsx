@@ -1,6 +1,7 @@
+import withAdminAuth from '../../withAdminAuth.jsx';
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { UPDATE_USER_ALERT } from '../../../../utils/mutations';
+import { UPDATE_ALERT } from '../../../../utils/mutations.js';
 import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 
 const UpdateAlert = ({ alert }) => {
@@ -134,4 +135,4 @@ const UpdateAlert = ({ alert }) => {
     );
 }
 
-export default UpdateAlert;
+export default withAdminAuth(UpdateAlert);

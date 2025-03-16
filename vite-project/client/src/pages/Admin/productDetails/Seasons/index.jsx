@@ -1,7 +1,8 @@
+import withAdminAuth from '../../withAdminAuth.jsx';
 import React, { useState } from 'react';
 import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { CREATE_SEASON } from '../mutations'; // Ensure this path is correct
+import { CREATE_SEASON } from '../../../../utils/mutations.js';
 
 const CreateSeasonForm = () => {
     const [formData, setFormData] = useState({
@@ -97,5 +98,5 @@ const CreateSeasonForm = () => {
         </Form>
     );
     }
-
-export default CreateSeasonForm;
+    
+export default withAdminAuth(CreateSeasonForm)
