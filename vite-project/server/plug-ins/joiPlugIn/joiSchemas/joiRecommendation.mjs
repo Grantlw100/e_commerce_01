@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 export const recommendationValidation = {
     RecommendationInput: Joi.object({
@@ -9,34 +9,54 @@ export const recommendationValidation = {
             recommendationFor: Joi.string(),
             recommendationId: Joi.string(),
         }),
-        Keywords: Joi.array().items(Joi.object({
-            keyword: Joi.string(),
-            points: Joi.number(),
-        })),
-        Categories: Joi.array().items(Joi.object({
-            category: Joi.string(),
-            points: Joi.number(),
-        })),
-        Seasons: Joi.array().items(Joi.object({
-            season: Joi.string(),
-            points: Joi.number(),
-        })),
-        Promotions: Joi.array().items(Joi.object({
-            promotion: Joi.string(),
-            points: Joi.number(),
-        })),
-        direct: Joi.array().items(Joi.object({
-            product: Joi.string(),
-            points: Joi.number(),
-        })),
-        indirect: Joi.array().items(Joi.object({
-            characteristicName: Joi.string(),
-            points: Joi.number(),
-        })),
-        recommendedProducts: Joi.array().items(Joi.object({
-            product: Joi.string(),
-            points: Joi.number(),
-        })),
+        Keywords: Joi.array().items(
+            Joi.object({
+                keyword: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
+        Categories: Joi.array().items(
+            Joi.object({
+                category: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
+        Seasons: Joi.array().items(
+            Joi.object({
+                season: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
+        Promotions: Joi.array().items(
+            Joi.object({
+                promotion: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
+        Stores: Joi.array().items(
+            Joi.object({
+                store: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
+        direct: Joi.array().items(
+            Joi.object({
+                product: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
+        indirect: Joi.array().items(
+            Joi.object({
+                characteristicName: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
+        recommendedProducts: Joi.array().items(
+            Joi.object({
+                product: Joi.string(),
+                points: Joi.number(),
+            })
+        ),
     }),
     RecommendationMetadataInput: Joi.object({
         createdAt: Joi.date(),
@@ -45,20 +65,24 @@ export const recommendationValidation = {
         recommendationFor: Joi.string(),
         recommendationId: Joi.string(),
     }),
-    KeyWordInput: Joi.object({
+    KeyWordRecommendsInput: Joi.object({
         keyword: Joi.string(),
         points: Joi.number(),
     }),
-    CategoryInput: Joi.object({
+    CategoryRecommendsInput: Joi.object({
         category: Joi.string(),
         points: Joi.number(),
     }),
-    SeasonInput: Joi.object({
+    SeasonRecommendsInput: Joi.object({
         season: Joi.string(),
         points: Joi.number(),
     }),
-    PromotionInput: Joi.object({
+    PromotionRecommendsInput: Joi.object({
         promotion: Joi.string(),
+        points: Joi.number(),
+    }),
+    StoreRecommendsInput: Joi.object({
+        store: Joi.string(),
         points: Joi.number(),
     }),
     DirectInput: Joi.object({
@@ -69,7 +93,7 @@ export const recommendationValidation = {
         characteristicName: Joi.string(),
         points: Joi.number(),
     }),
-    RecommendedProductsInput: Joi.object({
+    ProductRecommendsInput: Joi.object({
         product: Joi.string(),
         points: Joi.number(),
     }),

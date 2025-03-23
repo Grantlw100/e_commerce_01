@@ -39,6 +39,22 @@ const keywordSchema = new Schema({
         color: {type: String},
         index: {type: Number},
     }],
+    layouts: [{ 
+        layout: { type: Schema.Types.ObjectId, ref: 'Layout'},
+        index: { type: Number }
+     }], // Nested layouts
+    ownership: {
+            ownerType: {
+                type: String,
+                enum: ["user", "store", "admin", "superadmin", "wishlist"],
+                default: "store",
+            },
+            ownerId: {
+                type: Schema.Types.ObjectId,
+                refPath: "ownership.ownerType", // Dynamic reference
+                required: true,
+            },
+        },
 });
         // #endregion ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -76,6 +92,22 @@ const seasonSchema = new Schema({
         color: {type: String},
         index: {type: Number},
     }],
+    layouts: [{ 
+        layout: { type: Schema.Types.ObjectId, ref: 'Layout'},
+        index: { type: Number }
+     }], // Nested layouts
+    ownership: {
+        ownerType: {
+            type: String,
+            enum: ["user", "store", "admin", "superadmin", "wishlist"],
+            default: "store",
+        },
+        ownerId: {
+            type: Schema.Types.ObjectId,
+            refPath: "ownership.ownerType", // Dynamic reference
+            required: true,
+        },
+    },
 });
 
         // #endregion ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -120,6 +152,25 @@ const promotionSchema = new Schema({
         color: {type: String},
         index: {type: Number},
     }],
+    layouts: [{ 
+        layout: { type: Schema.Types.ObjectId, ref: 'Layout'},
+        index: { type: Number }
+     }], // Nested layouts
+    promocodes: [{
+        type: Schema.Types.ObjectId, ref: 'Token',
+    }],
+    ownership: {
+        ownerType: {
+            type: String,
+            enum: ["user", "store", "admin", "superadmin", "wishlist"],
+            default: "store",
+        },
+        ownerId: {
+            type: Schema.Types.ObjectId,
+            refPath: "ownership.ownerType", // Dynamic reference
+            required: true,
+        },
+    },
 });
     
             // #endregion ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -137,7 +188,7 @@ const categorySchema = new Schema({
     image: {
         type: String,
     },
-   description: {
+    description: {
         type: String,
     },
     subcategories: [{
@@ -156,6 +207,22 @@ const categorySchema = new Schema({
         color: {type: String},
         index: {type: Number},
     }],
+    layouts: [{ 
+        layout: { type: Schema.Types.ObjectId, ref: 'Layout'},
+        index: { type: Number }
+     }], // Nested layouts
+    ownership: {
+        ownerType: {
+            type: String,
+            enum: ["user", "store", "admin", "superadmin", "wishlist"],
+            default: "store",
+        },
+        ownerId: {
+            type: Schema.Types.ObjectId,
+            refPath: "ownership.ownerType", // Dynamic reference
+            required: true,
+        },
+    },
 });
 
         // #endregion ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

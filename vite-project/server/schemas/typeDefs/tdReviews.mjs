@@ -6,9 +6,10 @@ const tdReviews = `
         deletedAt: Date
         text: String
         author: User
-        product: Product
+        product: [ProductList]
+        store: Store
         rating: Int
-        images: [String]
+        images: [ImageIndex]
     }
 
     input ReviewInput {
@@ -17,17 +18,20 @@ const tdReviews = `
         deletedAt: Date
         text: String
         author: ID
-        product: ID
+        product: [ProductListInput]
+        store: ID
         rating: Int
-        images: [Upload]
+        images: [ImageIndexInput]
     }
 
-    type Query {
-        getProductReviews(productId: ID!): [Review]
+    extend type Query {
+        getReview(id: ID!): Review
     }
 
-    type Mutation {
-        editReview(id: ID!, review: ReviewInput): Review
+    extend type Mutation {
+        createReview(review: ReviewInput): Review
+        updateReview(id: ID!, review: ReviewInput): Review
+        deleteReview(id: ID!): Review
     }
         
 `;

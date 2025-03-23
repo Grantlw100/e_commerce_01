@@ -8,10 +8,17 @@ import {
         userATokenExpiry,
         adminATokenExpiry,
         superadminATokenExpiry,
+        overlordATokenExpiry,
+        storeATokenExpiry,
+        superStoreATokenExpiry,
+        
         // secrets
         secret,
         adminSecret,
-        superadminSecret
+        superadminSecret,
+        overlordSecret,
+        storeSecret,
+        superStoreSecret
     } from "./keys.mjs";
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -51,7 +58,11 @@ function isAuthorized({ req, res }) {
     const secrets = [
         { secret: secret, role: 'user' },
         { secret: adminSecret, role: 'admin' },
-        { secret: superadminSecret, role: 'superadmin' }
+        { secret: superadminSecret, role: 'superadmin' },
+        { secret: overlordSecret, role: 'overlord' },
+        { secret: storeSecret, role: 'store' },
+        { secret: superStoreSecret, role: 'superStore' },
+
     ];
 
     let verified = false;

@@ -14,17 +14,6 @@ const { Schema } = mongoose;
 
 const orderSchema = new Schema({
     // meta
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-        index: true,
-    },
-    products: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true,
-    }],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -33,7 +22,7 @@ const orderSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    orderDate: {
+    orderedAt: {
         type: Date,
         default: Date.now,
     },
@@ -43,12 +32,49 @@ const orderSchema = new Schema({
         enum: ['Processing', 'Shipped', 'Delivered'],
         default: 'Processing',
     },
-    // cost
+    ownership: {
+            ownerType: {
+                type: String,
+                enum: ["user", "store", "admin", "superadmin", "wishlist"],
+                default: "store",
+            },
+            ownerId: {
+                type: Schema.Types.ObjectId,
+                refPath: "ownership.ownerType", // Dynamic reference
+                required: true,
+            },
+        },
+    orderedFrom: [{
+       storeId: { 
+        type: Schema.Types.ObjectId,
+        ref: 'Store',
+        required: true,
+       },
+       products: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+        }]
+    }],
+    // content
+    products: [{
+            product: {
+                type: Schema.Types.ObjectId,
+                ref: 'Product',
+            },
+            quantity: {
+                type: Number,
+                default: 1,
+            },
+            index: {
+                type: Number,
+            },
+        }],
     total: {
         type: Number,
         required: true,
         min: 0,
     },
+    // value
     subtTotal: {
         type: Number,
         required: true,
@@ -64,7 +90,25 @@ const orderSchema = new Schema({
             type: Number,
         },
     }],
-    // Statis
+    discounts: [{
+        type: {
+            type: String,
+            required: true,
+        },
+        amount: {
+            type: Number,
+            required: true,
+        },
+        promocode: {
+            type: Schema.Types.ObjectId,
+            ref: 'Token',
+        },
+        promotions: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Promotion',
+        }],
+    }],
+    // Shipping
     trackingNumber: {
         type: String,
         default: '',
@@ -81,7 +125,12 @@ const orderSchema = new Schema({
             minlength: 1,
             maxlength: 50,
         },
-        address: {
+        address1: {
+            type: String,
+            minlength: 1,
+            maxlength: 280,
+        },
+        address2: {
             type: String,
             minlength: 1,
             maxlength: 280,
@@ -102,23 +151,6 @@ const orderSchema = new Schema({
             maxlength: 10,
         },
     },
-    discounts: [{
-        type: {
-            type: String,
-            required: true,
-        },
-        amount: {
-            type: Number,
-            required: true,
-        },
-        code: {
-            type: String,
-        },
-        promotions: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Promotion',
-        }],
-    }],
 });
 
 export default model('Order', orderSchema);

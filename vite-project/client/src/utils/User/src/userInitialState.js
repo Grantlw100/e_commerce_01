@@ -12,6 +12,7 @@ sessionId: 0,
     UserChangeMade: "", // Track if the user has made any changes
     firstName: "",
     lastName: "",
+    username: "",
     email: "",
     phone: "",
     isAdmin: false,

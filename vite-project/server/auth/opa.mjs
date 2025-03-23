@@ -7,7 +7,10 @@ import {
  guestRTokenExpiry,
  userRTokenExpiry,
  adminRTokenExpiry,
- superAdminRTokenExpiry
+ superAdminRTokenExpiry,
+ overlordRTokenExpiry,
+ storeRTokenExpiry,
+ superStoreRTokenExpiry
 } from '../auth/keys.mjs';
 
 
@@ -36,7 +39,19 @@ export function generateRefreshToken(userId, role, IP, userAgent)  {
         superAdmin: {
             role: 'superadmin',
             expiresAt: Date.now() + superAdminRTokenExpiry
-        }
+        },
+        overlord: {
+            role: 'overlord',
+            expiresAt: Date.now() + overlordRTokenExpiry
+        },
+        store: {
+            role: 'store',
+            expiresAt: Date.now() + storeRTokenExpiry
+        },
+        superStore: {
+            role: 'superStore',
+            expiresAt: Date.now() + superStoreRTokenExpiry
+        },
     }];
 
     // generate an opaque token

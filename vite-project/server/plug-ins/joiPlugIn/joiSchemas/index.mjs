@@ -9,20 +9,34 @@ import {reviewValidation} from './joiReviews.mjs';
 import {userValidation} from './joiUser.mjs';
 import {userAlertValidation} from './joiUserAlert.mjs';
 import {userCartValidation} from './joiUserCart.mjs';
-import {userWishlistValidation} from './joiWishlist.mjs';
+import {wishlistValidation} from './joiWishlist.mjs';
+import SubInputValidation from './joiSubInputs.mjs';
+import { storeValidation } from './joiStore.mjs';
+import { settingsValidation } from './joiSettings.mjs';
+import {layoutValidation} from './joiLayout.mjs';
+import {messageValidation} from './joiMessage.mjs';
+import {subscriptionValidation} from './joiSubscription.mjs';
+
 
 const validationSchemas = {
-    content: contentValidation,
-    notification: notificationValidation,
-    order: orderValidation,
-    product: productValidation,
-    productDetail: productDetailValidation,
-    recommendation: recommendationValidation,
-    review: reviewValidation,
-    user: userValidation,
-    userAlert: userAlertValidation,
-    userCart: userCartValidation,
-    wishlist: wishlistValidation,
+    contentValidation,
+    tokenValidation,
+    notificationValidation,
+    orderValidation,
+    productValidation,
+    productDetailValidation,
+    recommendationValidation,
+    reviewValidation,
+    userValidation,
+    userAlertValidation,
+    userCartValidation,
+    wishlistValidation,
+    SubInputValidation,
+    layoutValidation,
+    messageValidation,
+    subscriptionValidation,
+    storeValidation,
+    settingsValidation
 };
 
 export default validationSchemas;

@@ -1,9 +1,8 @@
 import DynamoDBClientDev from "../config/connection.aws.mjs";
 import { paramsUTable, UTableName } from "./tablesNUtils/createUTable.mjs";
-import GTable from "./tablesNUtils/createGTable.mjs";
-const paramsGTable = GTable.paramsGTable;
-const GTableName = GTable.GTableName;
+import { GTableName, paramsGTable } from "./tablesNUtils/createGTable.mjs";
 import { ATableName, paramsATable } from "./tablesNUtils/createATable.mjs";
+import { STableName, paramsSTable } from "./tablesNUtils/createSTable.mjs"; 
 import checkAndCreate from "./tablesNUtils/checkAndCreate.mjs";
 
 
@@ -23,6 +22,7 @@ const createTables = async () => {
         await checkAndCreate(DynamoDBClientDev, ATableName, paramsATable);
         await checkAndCreate(DynamoDBClientDev, UTableName, paramsUTable);
         await checkAndCreate(DynamoDBClientDev, GTableName, paramsGTable);
+        await checkAndCreate(DynamoDBClientDev, STableName, paramsSTable);
     } catch (error) {
         console.error('Error creating tables:', error);
     }

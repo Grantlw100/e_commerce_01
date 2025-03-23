@@ -1,4 +1,5 @@
 import {modelMap} from "./modelMap.mjs";
+import { useJoiInputValidation } from "../../plug-ins/joiPlugIn/index.mjs";
 
 
 // #region Data transforming and validation logic ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -31,6 +32,10 @@ import {modelMap} from "./modelMap.mjs";
         }
     };
 
+
+// check user owner ship needs to be seperated from check store ownership
+    // check store owner ship is a necessity to ensure the stores admins
+    // align with the what user is trying to update data 
 
 // which fields are allowed to be queried by the user based on their role
     export const fieldFilter = (entity, fields, userRole) => {
@@ -238,6 +243,7 @@ import {modelMap} from "./modelMap.mjs";
     }
 
 
+
 // Create Item 
 // used for all create resolvers for model specific interactions 
     export async function createItem({ modelName, input}) {
@@ -268,6 +274,32 @@ import {modelMap} from "./modelMap.mjs";
         try {
             // Validate updates
             const { error, value } = joiValidation.validate(updates);
+
+            if (error) {
+                throw new Error(`Validation error: ${error.message}`);
+            }
+
+            const doc = await mongooseModel.findByIdAndUpdate(id, value, {
+                new: true,
+            });
+
+            if (!doc) {
+                throw new Error(`No ${modelName} found with ID: ${id}`);
+            }
+
+            return statusMessages.success(modelName, "update", id);
+        } catch (error) {
+            console.error("Error updating item:", error);
+            return statusMessages.error(modelName, "update", id);
+        }
+    }
+
+
+// Update up to 3 Nested Items
+    export async function updateNestedItems({ id, inputTypes, inputData }) {
+        try {
+            // Validate updates
+            const { error, value } = useJoiInputValidation(inputTypes, inputData);
 
             if (error) {
                 throw new Error(`Validation error: ${error.message}`);
@@ -392,3 +424,40 @@ export default {
     fieldFilter,
     validateOwnership
 };
+
+// create new validate ownership function that will be used for all resolvers that require ownership validation
+// this function will be used for all resolvers that require ownership validation
+
+// get owned items  
+    // pull the items from a specific model that is owned by a user, store, etc...
+
+// Get Nested Model Data 
+
+// Update Nested Model Data
+    
+// Check Model token validity
+
+// Chnage nested index order
+
+// Event, Store, User specific helpers
+
+    // Trigger nested actions
+
+    // Get nested actions
+
+// update version, status, and data
+
+// Pull necessary data to apply across multiple models
+    // pulling keywords, categories, etc in their smallest amounts like ID's and the names 
+    // associated with the ID's  so when certain data is fetched these IDs can be used to
+    // associate the data with the name so the client can see the name of the data without having to query 
+    // the name of a keyword everytime they view anything**\
+    
+
+// ensure resolvers pass in the input types and the input data 
+
+// transform nested data will only be used for resolvers that do not use or benefit from 
+// specific input types
+
+// create status message will be used for all resolvers that do not have specific status messages
+// to be returned

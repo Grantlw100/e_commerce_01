@@ -34,8 +34,42 @@
 
 // add directives and tags for scalability and organization
 
-const genericTypeDefs = `
-# authorization
+const tdGeneral = `
+
+# Events
+
+    type Trigger {
+        event: String
+        sourceid: ID
+        sourceType: String
+        action: String
+        createdAt: Date
+    }
+
+    type SubscriptionList {
+        type: String
+        id: ID
+        index: Int
+    }
+
+    type ContentList {
+        content: ID
+        index: Int
+        subscribed: Boolean
+    }
+
+    type AlertList {
+        alert: ID
+        read: Boolean
+        subscribed: Boolean
+    }
+
+    type NotificationList {
+        notification: ID
+        read: Boolean
+    }
+
+    # authorization
     input AuthorizationInput {
         token: String!
         role: String
@@ -93,16 +127,48 @@ const genericTypeDefs = `
         field: String!
     }
 
+    input ProductListInput {
+        product: ID!
+        quantity: Int!
+        index: Int
+    }
+
+    type TriggerInput {
+        event: String
+        sourceid: ID
+        sourceType: String
+        action: String
+        createdAt: Date
+    }
+
+    input SubscriptionListInput {
+        type: String
+        id: ID
+        index: Int
+    }
+
+    input ContentListInput {
+        content: ID
+        index: Int
+        subscribed: Boolean
+    }
+
+    input AlertListInput {
+        alert: ID
+        read: Boolean
+        subscribed: Boolean
+    }
+
+    input NotificationListInput {
+        notification: ID
+        read: Boolean
+    }
 
 # model and nested model data unions and types
 
-    union ModelEntity = Content | Notification | Order | Product | Category | Keyword | Season | Promotion | Recommendation | Review | Token | User | UserAlert | UserCart | Wishlist
+    union ModelEntity = Content | Notification | Order | Product | Category | Keyword | Season | Promotion | Recommendation | Review | Token | User | UserAlert | UserCart | Wishlist | Message | AppSubscription | Store | Settings 
 
-    union supportEntity = ColorsIndex | ContentElements | ContentImages | OrderTax | ShippingDetails | Discount | Dimensions | UserInteraction | RecommendationMetadata | KeywordRecommends | CategoryRecommends | SeasonRecommends | PromotionRecommends | DirectRecommends | IndirectRecommends | RecommendedProducts | TokenPin | TokenMetadata | TokenLocation | UserProviders | Session | State | Device | Address | Demographics | Subscription
-
-    union inputModelEntity = ContentInput | NotificationInput | OrderInput | ProductInput | CategoryInput | KeywordInput | SeasonInput | PromotionInput | RecommendationInput | ReviewInput | TokenInput | UserInput | UserAlertInput | UserCartInput | WishlistInput
-
-    union inputSupportEntity = ColorsIndexInput | ContentElementsInput | ContentImagesInput | TaxInput | ShippingDetailsInput | DiscountInput | DimensionsInput | UserInteractionInput | RecommendationMetadataInput | KeywordRecommendsInput | CategoryRecommendsInput | SeasonRecommendsInput | PromotionRecommendsInput | DirectInput | IndirectInput | RecommendedProductsInput | TokenPinInput | TokenMetadataInput | TokenLocationInput | UserProvidersInput | SessionInput | StateInput | DeviceInput | AddressInput | DemographicsInput | SubscriptionInput
+    union supportEntity = ColorsIndex | ContentElements | ImageIndex | OrderTax | ShippingDetails | Dimensions | UserInteraction | RecommendationMetadata | KeywordRecommends | CategoryRecommends | SeasonRecommends | PromotionRecommends | DirectRecommends | IndirectRecommends | RecommendedProducts | TokenPin | TokenMetadata | TokenLocation | UserProviders | Session | State | Device | Address | Demographics | AppSubscription | Trigger
 
 
 # meta data types
@@ -125,7 +191,7 @@ const genericTypeDefs = `
 
 
 # query and mutation types
-    type Query {
+    extend type Query {
         getPublicEntity( entity: String!, id: ID!, fields: [queryInput]): ModelEntity
         getPublicEntities( entity: String!, id: ID, fields:[queryInput], filters: [FilterInput], sort: SortInput, pagination: PaginationInput): [ModelEntity]
         getEntitiesByLatest( entity: String!, fields: [queryInput], sort: [SortInput], pagination: PaginationInput): [ModelEntity]
@@ -135,9 +201,9 @@ const genericTypeDefs = `
         getPersonalEntities( entity: String!, id: ID!, fields: [queryInput], filters: [FilterInput], sort: SortInput, pagination: PaginationInput): [ModelEntity]
     }
 
-    type Mutation {
-        createEntity( entity: String!, data: [dataInput!]! ): [Status!]!
-        bacthCreateEntities( entity: String!, payloads: [payloadsInput] ): [Status]
+    extend type Mutation {
+        createEntity( entity: String!, payloads: [dataInput!]! ): [Status!]!
+        batchCreateEntities( entity: String!, payloads: [payloadsInput] ): [Status]
         updateEntity( entity: String!, id: ID!, data: payloadsInput ): Status
         batchUpdateEntities( entity: String!, update: [payloadsInput]): [Status] 
         deleteEntity( entity: String!, id: ID!): Status
@@ -147,7 +213,7 @@ const genericTypeDefs = `
 
 `;
 
-export default genericTypeDefs;
+export default tdGeneral;
 
 // Common MongoDB Query Operators
 // These are used to filter documents in find() queries:

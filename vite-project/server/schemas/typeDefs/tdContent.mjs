@@ -1,70 +1,122 @@
-const contentTypeDefs = `
+const tdContent = `
     
 
     type Content {
         id: ID!
-        title: String!
-        type: String!
-        content: String
         createdAt: Date
         updatedAt: Date
-        expirationAt: Date
+        expiredAt: Date        
+        publishedAt: Date
         version: Int
-        status: Boolean
-        publishAt: Date
-        images: [ContentImages] 
+        status: String
+        ownership: Ownership
+        languages: [LanguageTranslation]
+        privacy: String
+        title: String!
+        type: String!        
         elements: [ContentElements]
+        images: [ImageIndex] 
         colors: [ColorsIndex]
-        ownerId: ID
+        layouts: [LayoutList]
+        keyword: [Keyword]
+        category: [Category]
+        season: [Season]
+        promotion: [Promotion]
+        products: [ProductList]
+        stores: [StoreList]
+        trigger: [Trigger]
     }
 
     type ContentElements {
+        type: String
         position: String
         index: Int
         text: String
     }
 
-    type ContentImages {
+    type ImageIndex {
         image: String 
         index: Int
     }
 
+    type StoreList {
+        store: Store
+        index: Int
+    }
+
+    type LanguageTranslation {  
+        originalLangauge: String
+        translatedLanguage: String
+    }
+
+    type LayoutList {
+        layout: Layout
+        index: Int
+    }
+
     input ContentInput {
-        title: String!
-        type: String!
-        createdAt: Date!
+        createdAt: Date
         updatedAt: Date
-        expirationAt: Date
+        expiredAt: Date
+        publishedAt: Date
         version: Int
         status: Boolean
-        publishAt: Boolean!
+        ownership: OwnershipInput
+        languages: [LanguageTranslationInput]
+        privacy: String
+        title: String
+        type: String
         elements: [ContentElementsInput]
-        images: [ContentImagesInput]
+        images: [ImageIndexInput]
         colors: [ColorsIndexInput]
-        ownerId: ID
+        layouts: [LayoutListInput]
+        keyword: [ID]
+        category: [ID]
+        season: [ID]
+        promotion: [ID]
+        products: [ProductListInput]
+        stores: [StoreListInput]
+        trigger: [TriggerInput]
     }
 
     input ContentElementsInput {
+        type: String
         position: String
         index: Int
         text: String
     }
 
-    input ContentImagesInput {
+    input ImageIndexInput {
         image: String
         index: Int
     }
 
-    type Query {
+    input StoreListInput {
+        store: ID
+        index: Int
+    }
+
+    input LanguageTranslationInput {
+        originalLanguage: String
+        translatedLanguage: String
+    }
+
+    input LayoutListInput {
+        layout: ID
+        index: Int
+    }
+
+    extend type Query {
         getContent(contentId: ID!): Content
     }
 
-    type Mutation {
+    extend type Mutation {
         createContent(content: ContentInput): Status
         updateContent(id: ID!, content: ContentInput): Status
+        deleteContent(id: ID!): Status
     }
 `;
 
-export default contentTypeDefs;
+export default tdContent;
 
 // add keyword to content 

@@ -7,6 +7,7 @@ const tdRecommendation = `
         Categories: [CategoryRecommends]
         Seasons: [SeasonRecommends]
         Promotions: [PromotionRecommends]
+        Stores: [StoreRecommends]
         direct: [DirectRecommends]
         indirect: [IndirectRecommends]
         recommendedProducts: [RecommendedProducts]
@@ -16,8 +17,7 @@ const tdRecommendation = `
         createdAt: Date
         updatedAt: Date
         version: Int
-        recommendationFor: String
-        recommendationId: String
+        ownership: Ownership
     }
 
     type KeywordRecommends {
@@ -37,6 +37,11 @@ const tdRecommendation = `
 
     type PromotionRecommends {
         promotion: Promotion
+        points: Int
+    }
+
+    type StoreRecommends {
+        store: Store
         points: Int
     }
 
@@ -61,17 +66,17 @@ const tdRecommendation = `
         Categories: [CategoryRecommendsInput]
         Seasons: [SeasonRecommendsInput]
         Promotions: [PromotionRecommendsInput]
+        Stores: [StoreRecommendsInput]
         direct: [DirectInput]
         indirect: [IndirectInput]
-        recommendedProducts: [RecommendedProductsInput]
+        recommendedProducts: [ProductRecommendsInput]
     }
 
     input RecommendationMetadataInput {
         createdAt: Date
         updatedAt: Date
         version: Int
-        recommendationFor: String
-        recommendationId: String
+        ownership: OwnershipInput
     }
 
     input KeywordRecommendsInput {
@@ -94,6 +99,11 @@ const tdRecommendation = `
         points: Int
     }
 
+    input StoreRecommendsInput {
+        store: ID
+        points: Int
+    }
+
     input DirectInput {
         product: ID
         points: Int
@@ -104,18 +114,20 @@ const tdRecommendation = `
         points: Int
     }
 
-    input RecommendedProductsInput {
+    input ProductRecommendsInput {
         product: ID
         points: Int
     }
 
-    type Query {
-        getProductRecommendations(productId: ID!): [Recommendation]
+    extend type Query {
+        getRecommendation(id: ID!): Recommendation
     }
 
-    type Mutation {
-        updateproductRecommendation(productId: ID!, recommendation: RecommendationInput): Recommendation
-    }
+    extend type Mutation {
+        createRecommendation(recommendation: RecommendationInput): Recommendation
+        updateRecommendation(productId: ID!, recommendation: RecommendationInput): Recommendation
+        deleteRecommendation(id: ID!): Recommendation
+        }
 
 `;
 

@@ -11,8 +11,13 @@ import tdUsers from './tdUser.mjs';
 import tdUserAlert from './tdUserAlert.mjs';
 import tdCart from './tdUserCart.mjs';
 import tdWishlist from './tdWishlist.mjs';
+import tdLayout from './tdLayout.mjs';
+import tdStore from './tdStore.mjs';
+import tdSettings from './tdSettings.mjs';
+import tdSubscription from './tdSubscription.mjs';
+import tdEvent from './tdEvent.mjs';
+import tdMessage from './tdMessage.mjs';
 import {mergeTypeDefs} from '@graphql-tools/merge';
-import gql from 'graphql-tag';
 
 const tdScalars = `
 
@@ -25,17 +30,52 @@ const tdScalars = `
         Index: Int
     }
 
-    type ColorsIndexInput {
+    input ColorsIndexInput {
         Color: String
         Index: Int
     }
+
+    type ProductList {
+        product: Product
+        quantity: Int
+        index: Int
+    }
+
+    input ProductListInput {
+        product: ID
+        quantity: Int
+        index: Int
+    }
+
+    type Ownership {
+        ownerType: String
+        userId: ID
+        storeId: ID
+    }
+
+    input OwnershipInput {
+        ownerType: String
+        userId: ID
+        storeId: ID
+    }
     
     scalar Number
+
+    scalar JSON 
+
+    type Query {
+        _empty: String
+    }
+
+    type Mutation {
+        _empty: String
+    }
+
+    
 `;
 
 const typeDefs = [
     tdScalars,
-    tdGeneral,
     tdContent,
     tdNotifications,
     tdOrder,
@@ -47,7 +87,15 @@ const typeDefs = [
     tdUsers,
     tdUserAlert,
     tdCart,
-    tdWishlist
+    tdWishlist,
+    tdLayout,
+    tdStore,
+    tdSettings,
+    tdSubscription,
+    tdEvent,
+    tdGeneral,
+    tdMessage
 ];
+
 
 export default mergeTypeDefs(typeDefs);

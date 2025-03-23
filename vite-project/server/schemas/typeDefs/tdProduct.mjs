@@ -1,3 +1,11 @@
+
+// UpdateProductRating 
+    // update the rating a product has whenever a new review is added fr the prodduct 
+
+// updateInventory (for stores and products)
+
+// updateUserInteractions (for products)
+
 const tdProduct = `
 
     type Product {
@@ -5,15 +13,15 @@ const tdProduct = `
         name: String!
         quickDescription: String!
         description: String
-        descriptionImages: [String]
-        primaryColors: [String]
-        secondaryColors: [String]
+        descriptionImages: [ImageIndex]
+        colors: [ColorsIndex]
+        layouts: [LayoutList]
         category: [Category]
         season: [Season]
-        promotions: [Promotion]
-        keywords: [Keyword]
+        promotion: [Promotion]
+        keyword: [Keyword]
         featured: Boolean
-        recommendationId: Product
+        recommendationId: Recommendation
         reviews: [Review]
         rating: Float
         makeYourOwn: Boolean
@@ -23,15 +31,16 @@ const tdProduct = `
         includes: [Product]
         bundle: Boolean
         bundled: Boolean
-        image: String!
+        image: [String!]
         quantity: Int!
         weight: Float!
         dimensions: Dimensions
+        inventory: Inventory
         userInteraction: UserInteraction
         createdAt: Date
         updatedAt: Date
         version: Int
-        ownerId: User
+        ownership: Ownership
     }
 
     type Dimensions {
@@ -39,6 +48,15 @@ const tdProduct = `
         width: Float
         height: Float
         size: String
+    }
+
+    type Inventory {
+        stock: Int
+        reserved: Int
+        sold: Int
+        restockThreshold: Int
+        lastRestocked: Date
+        restockActive: Boolean
     }
 
     type UserInteraction {
@@ -52,9 +70,9 @@ const tdProduct = `
         name: String!
         quickDescription: String!
         description: String
-        descriptionImages: [String]
-        primaryColors: [ColorsIndexInput]
-        secondaryColors: [ColorsIndexInput]
+        descriptionImages: [ImageIndexInput]
+        colors: [ColorsIndexInput]
+        layouts: [LayoutListInput]
         category: [ID]
         season: [ID]
         promotions: [ID]
@@ -70,7 +88,7 @@ const tdProduct = `
         includes: [ID]
         bundle: Boolean
         bundled: Boolean
-        image: String!
+        image: [ImageIndexInput]
         quantity: Int!
         weight: Float!
         dimensions: DimensionsInput!
@@ -78,7 +96,7 @@ const tdProduct = `
         createdAt: Date
         updatedAt: Date
         version: Int
-        ownerId: ID
+        ownership: OwnershipInput
     }
 
     input DimensionsInput {
@@ -88,6 +106,15 @@ const tdProduct = `
         size: String
     }
 
+    input InventoryInput {
+        stock: Int
+        reserved: Int
+        sold: Int
+        restockThreshold: Int
+        lastRestocked: Date
+        restockActive: Boolean
+    }
+
     input UserInteractionInput {
         lovedCount: Int
         cartCount: Int
@@ -95,17 +122,23 @@ const tdProduct = `
         viewedCount: Int
     }
 
-    type Query {
-        getProductBySearch(search: String): [Product]
-        getMakeYourOwnProducts: [Product]
-        getBundledProducts: [Product]
+    extend type Query {
+        getProduct(id: ID!): Product
     }
 
-    type Mutation {
-        createMakeYourOwnProduct(product: ProductInput): Product
-        updateMakeYourOwnProduct(id: ID!, product: ProductInput): Product
-        deleteMakeYourOwnProduct(id: ID!): Product    }
+    extend type Mutation {
+        createProduct(product: ProductInput): Product
+        updateProduct(id: ID!, product: ProductInput): Product
+        deleteProduct(id: ID!): Product
+    }
 
 `;
 
 export default tdProduct;
+
+// getProductBySearch(search: String): [Product]
+// getMakeYourOwnProducts: [Product]
+// getBundledProducts: [Product]
+// createMakeYourOwnProduct(product: ProductInput): Product
+// updateMakeYourOwnProduct(id: ID!, product: ProductInput): Product
+// deleteMakeYourOwnProduct(id: ID!): Product    }

@@ -60,6 +60,18 @@ const isSuperAdmin = rule()(async (parent, args, ctx, info) => {
   return ctx.user && ctx.user.role === 'superadmin';
 });
 
+const isStore = rule()(async (parent, args, ctx, info) => {
+  return ctx.user && ctx.user.role === 'store' || ctx.user.role === 'superStore';
+});
+
+const isOverlord = rule()(async (parent, args, ctx, info) => {
+  return ctx.user && ctx.user.role === 'supremeOverLord';
+});
+
+const isSuperStore = rule()(async (parent, args, ctx, info) => {
+  return ctx.user && ctx.user.role === 'superStore';
+});
+
 
 
 // Example permissions applying these rules
@@ -75,6 +87,9 @@ const permissions = shield({
     getEntitiesByUpdates: isSuperAdmin,
     // recently added 
     getContent: isAuthenticated,
+    getEvent: isAuthenticated,
+    getLayout: isAuthenticated,
+    getMessage: isAuthenticated,
     getNotification: isAuthenticated, 
     getOrder: and(isAuthenticated, isOwner),
     getProduct: isAuthenticated,
@@ -84,6 +99,8 @@ const permissions = shield({
     getPromotion: isAuthenticated,
     getRecommendation: or(isOwner, isAdmin),
     getReview: isAuthenticated,
+    getSettings: isAuthenticated,
+    getStore: isAuthenticated,
     getToken: and(isAuthenticated, isOwner),
     getUser: or(isOwner, isSuperAdmin),
     getUserAlert: isAuthenticated,
@@ -94,6 +111,9 @@ const permissions = shield({
     // You can apply similar rules for mutations
     createEntity: and(isAuthenticated, isUser),
     createContent: and(isAuthenticated, isUser),
+    createEvent: isAuthenticated,
+    createLayout: isAuthenticated,
+    createMessage: isAuthenticated,
     createNotification: and(isAuthenticated, isUser),
     createOrder: isAuthenticated, 
     createProduct: or(isUser, isAdmin),
@@ -103,12 +123,17 @@ const permissions = shield({
     createKeyword: isAdmin,
     createRecommendation: isAuthenticated,
     createReview: isUser,
+    createSettings: isAdmin,
+    createStore: isAdmin,
     createToken: isAuthenticated,
     createUser: or(isAuthenticated, isUser),
     createUserAlert: or(isOwner, isAdmin),
     createUserCart: isAuthenticated,
     createWishlist: isUser,
     updateContent: or(isOwner, isAdmin),
+    updateEvent: isAdmin,
+    updateLayout: isAdmin,
+    updateMessage: or(isOwner, isAdmin),
     updateNotification: or(isOwner, isAdmin),
     updateOrder: or(isOwner, isAdmin),
     updateProduct: or(isOwner, isAdmin),
@@ -118,14 +143,19 @@ const permissions = shield({
     updateCategory: isAdmin,
     updateRecommendation: or(isOwner,isSuperAdmin),
     updateReview: isOwner,
+    updateSettings: isAdmin,
+    updateStore: isAdmin,
     updateToken: and(isAuthenticated, isOwner),
     updateUser: or(isOwner, isSuperAdmin),
     updateUserAlert: or(isOwner, isAdmin),
     updateUserCart: or(isOwner, isSuperAdmin),
     updateWishlist: or(isOwner, isAdmin),
     deleteContent: or(isOwner, isAdmin),
+    deleteEvent: isAdmin,
+    deleteLayout: isAdmin,
+    deleteMessage: or(isOwner, isAdmin),
     deleteNotification: or(isOwner, isAdmin),
-    deleteorder: isOwner,
+    deleteOrder: isOwner,
     deleteProduct: or(isAdmin, isOwner),
     deleteCategory: isAdmin,
     deleteKeyword: isAdmin, 
@@ -133,6 +163,8 @@ const permissions = shield({
     deletePromotion: isAdmin, 
     deleteRecommendation: or(isSuperAdmin, isOwner),
     deleteReview: or(isOwner, isAdmin),
+    deleteSettings: isAdmin,
+    deleteStore: isAdmin,
     deleteToken: or(isOwner, isSuperAdmin),
     deleteUser: or(isOwner, isSuperAdmin),
     deleteUserAlert: or(isOwner, isAdmin),

@@ -383,9 +383,9 @@ const resolvers = {
       try {
         const content = await Content.find();
         for (const contentItem of content) {
-          if (contentItem.contentImages && contentItem.contentImages.length > 0) {
-            contentItem.contentImages = await Promise.all(
-              contentItem.contentImages.map(async (imageUrl) => {
+          if (contentItem.ImageIndex && contentItem.ImageIndex.length > 0) {
+            contentItem.ImageIndex = await Promise.all(
+              contentItem.ImageIndex.map(async (imageUrl) => {
                 try {
                   const imageKey = imageUrl.split('.s3.amazonaws.com/')[1];
                   return await loadFile(imageKey);
@@ -1242,7 +1242,7 @@ const resolvers = {
       try {
         if (files && files.length > 0) {
           const fileUploadResults = await uploadMultipleFiles(files);
-          input.contentImages = fileUploadResults.map(result => `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${result.Key}`);
+          input.ImageIndex = fileUploadResults.map(result => `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${result.Key}`);
         }
         
         if (input.user === 'all') {

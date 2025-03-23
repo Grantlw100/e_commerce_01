@@ -1,89 +1,114 @@
-import User from '../../models/user.mjs';
-import Product from '../../models/product.mjs';
-import Review from '../../models/review.mjs';
-import Order from '../../models/order.mjs';
-import Notification from '../../models/notification.mjs';
-import UserAlert from '../../models/userAlert.mjs';
-import UserCart from '../../models/userCart.mjs';
-import Content from '../../models/content.mjs';
-import productDetails from '../../models/productDetails.mjs';
-import Token from '../../models/token.mjs';
-import Wishlist from '../../models/wishlist.mjs';
-import Recommendation from '../../models/recommendation.mjs';
+import Models from '../../models/index.mjs';
+const { Content, Notification, Order, Product, Recommendation, Review, Token, User, UserAlert, UserCart, Wishlist, Message, Subscription, Store, Settings, Keyword, Season, Promotion, Category } = Models;
 
-const [Keyword, Season, Promotion, Category] = productDetails;
-import {contentValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiContent.mjs';
-import {tokenValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiToken.mjs';
-import {notificationValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiNotification.mjs';
-import {orderValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiOrder.mjs';
-import {productValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiProduct.mjs';
-import {productDetailValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiProductDetail.mjs';
-import {recommendationValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiRecommendation.mjs';
-import {reviewValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiReviews.mjs';
-import {userValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiUser.mjs';
-import {userAlertValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiUserAlert.mjs';
-import {userCartValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiUserCart.mjs';
-import {wishlistValidation} from '../../plug-ins/joiPlugIn/joiSchemas/joiWishlist.mjs';
+// ✅ Validation Imports
+import validationSchemas from '../../plug-ins/joiPlugIn/joiSchemas/index.mjs';
+const { 
+    contentValidation,
+    notificationValidation,
+    orderValidation,
+    productValidation,
+    productDetailValidation,
+    recommendationValidation,
+    reviewValidation,
+    tokenValidation,
+    userValidation,
+    userAlertValidation,
+    userCartValidation,
+    wishlistValidation,
+    settingsValidation,
+    storeValidation,
+    messageValidation,
+    subscriptionValidation,
+    SubInputValidation
+} = validationSchemas;
+
 
 export const modelMap = {
-    Content: {
-        mongooseModel: Content,
-        joiValidation: contentValidation
-    },
-    Notification: {
-        mongooseModel: Notification,
-        joiValidation: notificationValidation
-    },
-    Order: {
-        mongooseModel: Order,
-        joiValidation: orderValidation
-    },
-    Product: {
-        mongooseModel: Product,
-        joiValidation: productValidation
-    },
-    Keyword: {
-        mongooseModel: Keyword,
-        joiValidation: productDetailValidation.KeywordInput
-    },
-    Season: {
-        mongooseModel: Season,
-        joiValidation: productDetailValidation.SeasonInput
-    },
-    Promotion: {
-        mongooseModel: Promotion,
-        joiValidation: productDetailValidation.PromotionInput
-    },
-    Category: {
-        mongooseModel: Category,
-        joiValidation: productDetailValidation.CategoryInput
-    },
-    Recommendation: {
-        mongooseModel: Recommendation,
-        joiValidation: recommendationValidation
-    },
-    Review: {
-        mongooseModel: Review,
-        joiValidation: reviewValidation
-    },
-    Token: {
-        mongooseModel: Token,
-        joiValidation: tokenValidation
-    },
-    User: {
-        mongooseModel: User,
-        joiValidation: userValidation
-    },
-    UserAlert: {
-        mongooseModel: UserAlert,
-        joiValidation: userAlertValidation
-    },
-    UserCart: {
-        mongooseModel: UserCart,
-        joiValidation: userCartValidation
-    },
-    Wishlist: {
-        mongooseModel: Wishlist,
-        joiValidation: wishlistValidation
-    }
-}
+    // ✅ Core Models
+    Content: { mongooseModel: Content, joiValidation: contentValidation.ContentInput },
+    Notification: { mongooseModel: Notification, joiValidation: notificationValidation.NotificationInput },
+    Order: { mongooseModel: Order, joiValidation: orderValidation.OrderInput },
+    Product: { mongooseModel: Product, joiValidation: productValidation.ProductInput },
+    Keyword: { mongooseModel: Keyword, joiValidation: productDetailValidation.KeywordInput },
+    Season: { mongooseModel: Season, joiValidation: productDetailValidation.SeasonInput },
+    Promotion: { mongooseModel: Promotion, joiValidation: productDetailValidation.PromotionInput },
+    Category: { mongooseModel: Category, joiValidation: productDetailValidation.CategoryInput },
+    Recommendation: { mongooseModel: Recommendation, joiValidation: recommendationValidation.RecommendationInput },
+    Review: { mongooseModel: Review, joiValidation: reviewValidation.ReviewInput },
+    Token: { mongooseModel: Token, joiValidation: tokenValidation.TokenInput },
+    User: { mongooseModel: User, joiValidation: userValidation.UserInput },
+    UserAlert: { mongooseModel: UserAlert, joiValidation: userAlertValidation.UserAlertInput },
+    UserCart: { mongooseModel: UserCart, joiValidation: userCartValidation.UserCartInput },
+    Wishlist: { mongooseModel: Wishlist, joiValidation: wishlistValidation.WishlistInput },
+    Message: { mongooseModel: Message, joiValidation: messageValidation.MessageInput },
+    Subscription: { mongooseModel: Subscription, joiValidation: subscriptionValidation.SubscriptionInput },
+    Store: { mongooseModel: Store, joiValidation: storeValidation.StoreInput },
+    Settings: { mongooseModel: Settings, joiValidation: settingsValidation.SettingsInput },
+
+    // ✅ Sub-Inputs (Mapped for GraphQL Validation)
+    AnalyticsInput: { joiValidation: SubInputValidation.AnalyticsInput },
+    VisibilityInput: { joiValidation: SubInputValidation.VisibilityInput },
+    StorePermissionsInput: { joiValidation: SubInputValidation.StorePermissionsInput },
+    StorePermissionsDefaultInput: { joiValidation: SubInputValidation.StorePermissionsDefaultInput },
+    StoreShippingInput: { joiValidation: SubInputValidation.StoreShippingInput },
+    StoreRolesInput: { joiValidation: SubInputValidation.StoreRolesInput },
+    ContentElementsInput: { joiValidation: SubInputValidation.ContentElementsInput },
+    ColorsIndexInput: { joiValidation: SubInputValidation.ColorsIndexInput },
+    ComponentListInput: { joiValidation: SubInputValidation.ComponentListInput },
+    ImageIndexInput: { joiValidation: SubInputValidation.ImageIndexInput },
+    PhotoAlbumInput: { joiValidation: SubInputValidation.PhotoAlbumInput },
+    ThemesInput: { joiValidation: SubInputValidation.ThemesInput },
+    ProviderInput: { joiValidation: SubInputValidation.ProviderInput },
+    LogosInput: { joiValidation: SubInputValidation.LogosInput },
+    BannerImagesInput: { joiValidation: SubInputValidation.BannerImagesInput },
+    ProfilePicturesInput: { joiValidation: SubInputValidation.ProfilePicturesInput },
+    LanguageTranslationsInput: { joiValidation: SubInputValidation.LanguageTranslationsInput },
+    StoreListInput: { joiValidation: SubInputValidation.StoreListInput },
+    ProductsListInput: { joiValidation: SubInputValidation.ProductsListInput },
+    LayoutListInput: { joiValidation: SubInputValidation.LayoutListInput },
+    ConversationsInput: { joiValidation: SubInputValidation.ConversationsInput },
+    MessageListInput: { joiValidation: SubInputValidation.MessageListInput },
+    NotificationListInput: { joiValidation: SubInputValidation.NotificationListInput },
+    ContentListInput: { joiValidation: SubInputValidation.ContentListInput },
+    AlertListInput: { joiValidation: SubInputValidation.AlertListInput },
+    OwnedMessagesInput: { joiValidation: SubInputValidation.OwnedMessagesInput },
+    LoyaltyProgramInput: { joiValidation: SubInputValidation.LoyaltyProgramInput },
+    PromoCodeInput: { joiValidation: SubInputValidation.PromoCodeInput },
+    SubscriptionsListInput: { joiValidation: SubInputValidation.SubscriptionsListInput },
+    DiscountTierInput: { joiValidation: SubInputValidation.DiscountTierInput },
+    RewardInput: { joiValidation: SubInputValidation.RewardInput },
+    CancellationInput: { joiValidation: SubInputValidation.CancellationInput },
+    SubscriptionProgramInput: { joiValidation: SubInputValidation.SubscriptionProgramInput },
+    OwnershipInput: { joiValidation: SubInputValidation.OwnershipInput },
+    UserInteractionInput: { joiValidation: SubInputValidation.UserInteractionInput },
+    EmailBookInput: { joiValidation: SubInputValidation.EmailBookInput },
+    PhoneBookInput: { joiValidation: SubInputValidation.PhoneBookInput },
+    InterestTypeInput: { joiValidation: SubInputValidation.InterestTypeInput },
+    DeviceInput: { joiValidation: SubInputValidation.DeviceInput },
+    UserLocationInput: { joiValidation: SubInputValidation.UserLocationInput },
+    AddressInput: { joiValidation: SubInputValidation.AddressInput },
+    DemographicsInput: { joiValidation: SubInputValidation.DemographicsInput },
+    SessionMetaDataInput: { joiValidation: SubInputValidation.SessionMetaDataInput },
+    StateInput: { joiValidation: SubInputValidation.StateInput },
+    TokenPinInput: { joiValidation: SubInputValidation.TokenPinInput },
+    TokenMetaDataInput: { joiValidation: SubInputValidation.TokenMetaDataInput },
+    TokenLocationInput: { joiValidation: SubInputValidation.TokenLocationInput },
+    ShippingDetailsInput: { joiValidation: SubInputValidation.ShippingDetailsInput },
+    OrderDiscountInput: { joiValidation: SubInputValidation.OrderDiscountInput },
+    OrderFromInput: { joiValidation: SubInputValidation.OrderFromInput },
+    TaxInput: { joiValidation: SubInputValidation.TaxInput },
+    DiscountInput: { joiValidation: SubInputValidation.DiscountInput },
+    InventoryInput: { joiValidation: SubInputValidation.InventoryInput },
+    RecommendationMetadataInput: { joiValidation: SubInputValidation.RecommendationMetadataInput },
+    KeywordRecommendsInput: { joiValidation: SubInputValidation.KeywordRecommendsInput },
+    CategoryRecommendsInput: { joiValidation: SubInputValidation.CategoryRecommendsInput },
+    SeasonRecommendsInput: { joiValidation: SubInputValidation.SeasonRecommendsInput },
+    PromotionRecommendsInput: { joiValidation: SubInputValidation.PromotionRecommendsInput },
+    DirectInput: { joiValidation: SubInputValidation.DirectInput },
+    IndirectInput: { joiValidation: SubInputValidation.IndirectInput },
+    ProductRecommendsInput: { joiValidation: SubInputValidation.ProductRecommendsInput },
+    UserProvidersInput: { joiValidation: SubInputValidation.UserProvidersInput },
+    TriggerInput: { joiValidation: SubInputValidation.TriggerInput },
+    ActionInput: { joiValidation: SubInputValidation.ActionsInput },
+};

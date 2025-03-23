@@ -25,16 +25,34 @@ const userCartSchema = new Schema({
     orderedAt: {
         type: Date,
     },
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+    abandonedAt: {
+        type: Date,
     },
+    ownership: {
+            ownerType: {
+                type: String,
+                enum: ["user", "store", "admin", "superadmin", "wishlist"],
+                default: "store",
+            },
+            ownerId: {
+                type: Schema.Types.ObjectId,
+                refPath: "ownership.ownerType", // Dynamic reference
+                required: true,
+            },
+        },
     products: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true,
-    }],
+            product: {
+                type: Schema.Types.ObjectId,
+                ref: 'Product',
+            },
+            count: {
+                type: Number,
+                default: 1,
+            },
+            index: {
+                type: Number,
+            },
+        }],
     total: {
         type: Number,
         required: true,

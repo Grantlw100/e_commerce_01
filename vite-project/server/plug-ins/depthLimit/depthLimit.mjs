@@ -1,5 +1,5 @@
-import pkg from 'graphql-depth-limit';
-const { useDepthLimit } = pkg;
+import { useDepthLimit } from "@envelop/depth-limit";
+
 
 const depthLimit = (maxDepth) => {
     return useDepthLimit({

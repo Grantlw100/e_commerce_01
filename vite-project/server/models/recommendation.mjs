@@ -25,13 +25,20 @@ const recommendationSchema = ({
             type: Number,
             default: 1,
         },
-        recommendationFor: {
-            type: String,
-            enum: ['User', 'Product'],
-        }, // User or product
-        recommendationId: { type: String },
+        ownership: {
+            ownerType: {
+                type: String,
+                enum: ["user", "store", "admin", "superadmin", "wishlist"],
+                default: "store",
+            },
+            ownerId: {
+                type: Schema.Types.ObjectId,
+                refPath: "ownership.ownerType", // Dynamic reference
+                required: true,
+            },
+        },
     },
-    Keyword: [
+    Keywords: [
         {
             keyword: {
                 type: Schema.Types.ObjectId,
@@ -43,7 +50,7 @@ const recommendationSchema = ({
             },
         }
     ],
-    Category: [
+    Categories: [
         {
             category: {
                 type: Schema.Types.ObjectId,
@@ -55,7 +62,7 @@ const recommendationSchema = ({
             },
         }
     ],
-    Season: [
+    Seasons: [
         {
             season: {
                 type: Schema.Types.ObjectId,
@@ -67,11 +74,23 @@ const recommendationSchema = ({
             },
         }
     ],
-    Promotion: [
+    Promotions: [
         {
             promotion: {
                 type: Schema.Types.ObjectId,
                 ref: 'Promotion',
+            },
+            points: {
+                type: Number,
+                default: 0,
+            },
+        }
+    ],
+    Stores: [
+        {
+            store: {
+                type: Schema.Types.ObjectId,
+                ref: 'Store',
             },
             points: {
                 type: Number,
@@ -105,7 +124,7 @@ const recommendationSchema = ({
             }
         },
     ], // indirect assocation built off of a products characteristics ( size, bundled, makeYourOwn, etc)
-    RecommendedProducts: [
+    recommendedProducts: [
         { 
             productId: {
                 type: Schema.Types.ObjectId,

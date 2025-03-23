@@ -7,13 +7,19 @@ import {
         userATokenExpiry,
         adminATokenExpiry,
         superadminATokenExpiry,
+        overlordATokenExpiry,
+        storeATokenExpiry,
+        superStoreATokenExpiry,
         // URN Address for the tokens
         ISSURN,
         AUDURN,
         // secrets
         secret,
         adminSecret,
-        superadminSecret
+        superadminSecret,
+        overlordSecret,
+        storeSecret,
+        superStoreSecret
     } from "./keys.mjs";
     
 
@@ -80,6 +86,36 @@ const roleOptions = {
         secret: superadminSecret,
         permissions: ["read", "write", "update", "delete", "admin", "superadmin"],
         rates: 2000,
+        rateResets: 3600
+    },
+    store: {
+        iss: ISSURN,
+        aud: AUDURN,
+        role: "store",
+        expiration: storeATokenExpiry,
+        secret: storeSecret,
+        permissions: ["read", "write", "update", "delete"],
+        rates: 1000,
+        rateResets: 1800
+    },
+    superStore: {
+        iss: ISSURN,
+        aud: AUDURN,
+        role: "superStore",
+        expiration: superStoreATokenExpiry,
+        secret: superStoreSecret,
+        permissions: ["read", "write", "update", "delete", "admin", "superadmin"],
+        rates: 2000,
+        rateResets: 3600
+    },
+    overlord: {
+        iss: ISSURN,
+        aud: AUDURN,
+        role: "overlord",
+        expiration: overlordATokenExpiry,
+        secret: overlordSecret,
+        permissions: ["read", "write", "update", "delete", "admin", "superadmin", "overlord"],
+        rates: 3000,
         rateResets: 3600
     }
 };

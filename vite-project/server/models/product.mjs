@@ -28,15 +28,18 @@ const productSchema = new Schema({
         required: true,
         trim: true,
     },
-    descriptionImages: {
-        type: [String],
-    },
-    primaryColors: [{
-        type: String,
+    descriptionImages: [{
+        photo: { type: String },
+        index: { type: Number },
     }],
-    secondaryColors: [{
-        type: String,
+    colors: [{
+        color: { type: String },
+        index: { type: Number },
     }],
+    layouts: [{ 
+        layout: { type: Schema.Types.ObjectId, ref: 'Layout'},
+        index: { type: Number }
+     }], // Nested layouts
     // meta
     category: [{
         type: Schema.Types.ObjectId,
@@ -46,11 +49,11 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Season',
     }],
-    promotions: [{
+    promotion: [{
         type: Schema.Types.ObjectId,
         ref: 'Promotion',
     }],
-    keywords: [{
+    keyword: [{
         type: Schema.Types.ObjectId,
         ref: 'Keyword',
     }],
@@ -102,10 +105,16 @@ const productSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    image: {
-        type: String,
-        required: true,
-    },
+    image: [{
+        photo: {
+            type: String,
+            required: true,
+        },
+        index: {
+            type: Number,
+            required: true,
+        },
+    }],
     quantity: {
         type: Number,
         required: true,
@@ -143,6 +152,32 @@ const productSchema = new Schema({
             type: String,
         }
     },
+    inventory: {
+        stock: { 
+            type: Number, 
+            default: 0
+        }, // Total available stock for all products
+        reserved: {
+            type: Number,
+            default: 0,
+        }, // Total products
+        sold: { 
+            type: Number, 
+            default: 0 
+        }, // Total products sold
+        restockThreshold: { 
+            type: Number, 
+            default: 5 
+        }, // Auto-restock warning threshold
+        lastRestocked: { 
+            type: Date, 
+            default: Date.now 
+        }, // Last time inventory was updated
+        restockActive: {
+            type: Boolean,
+            default: false,
+        }
+    },
     userInteraction: {
         lovedCount: {
             type: Number,
@@ -174,10 +209,18 @@ const productSchema = new Schema({
         default: 1,
     },
     // if a make your own or if the product is listed by a specific user 
-    ownerId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-    },
+    ownership: {
+            ownerType: {
+                type: String,
+                enum: ["user", "store", "admin", "superadmin", "wishlist"],
+                default: "store",
+            },
+            ownerId: {
+                type: Schema.Types.ObjectId,
+                refPath: "ownership.ownerType", // Dynamic reference
+                required: true,
+            },
+        },
     // for later use to incorpoarate stores
     // store: {
     //     type: Schema.Types.ObjectId,

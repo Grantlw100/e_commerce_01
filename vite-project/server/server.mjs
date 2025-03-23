@@ -30,11 +30,11 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const app = express();
 
-// Connect to Mongo
-await mongooseConnection();
+// // Connect to Mongo
+// await mongooseConnection.connection();
 
 // Create DynamoDB tables
-await createTables();
+// await createTables();
 // If needed, testDynamoDBConnection();
 
 // Set up Express to parse requests
@@ -64,8 +64,25 @@ if (NODE_ENV === 'production') {
 //----------------------------------------------------------------//
 const getEnveloped = createEnvelopInstance();
 
-// The final schema is available on `getEnveloped().schema`
-const { schema, execute, subscribe } = getEnveloped();
+console.log("🔍 Checking getEnveloped Output:", getEnveloped);
+
+if (typeof getEnveloped !== "function") {
+  throw new Error("🚨 createEnvelopInstance() did not return a function!");
+}
+
+// 🔥 Ensure `getEnveloped().schema` Exists
+const envelopedSchema = getEnveloped();
+
+console.log("✅ Enveloped Schema Output:", envelopedSchema);
+
+const { schema, execute, subscribe } = envelopedSchema;
+
+console.log("✅ Final Schema:", schema);
+console.log("✅ Query Type in Final Schema:", schema?.getTypeMap()["Query"] ? "Exists" : "Missing");
+
+if (!schema) {
+  throw new Error("🚨 Envelop did not return a schema!");
+}
 
 // Create Apollo Server with the Envelop-transformed schema
 const server = new ApolloServer({

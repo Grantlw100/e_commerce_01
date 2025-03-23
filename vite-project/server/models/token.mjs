@@ -8,31 +8,23 @@ const { Schema } = mongoose;
     // token will consist of userId, i.p. address, expiry, 4 - 6 digit pin
 
 const TokenSchema = new Schema({
-    userId: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User', 
-    },
-    storeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Store',
-    },
     // pass not a robot check. token for guests and real users
     role: {
         type: String,
-        enum: ['guest', 'user', 'admin', 'superadmin'],
+        enum: ['guest', 'user', 'admin', 'superadmin', 'store', 'superStore', 'overLord',],
         default: 'guest'
     },
     pin: {
         count: { type: Number, default: 8},
         pin: { type: String },
-        date: { type: Date }
+        updatedAt: { type: Date }
     },
     token: {
         type: String,
     },
-    tokenType: {
+    type: {
         type: String,
-        enum: ['guest', 'user', 'admin', 'superadmin', 'store', 'superStore', 'supremeOverLord'],
+        enum: ['promocode','access', 'refresh', 'reset', 'verify', 'otp', 'guest', 'user', 'admin', 'superadmin', 'store', 'superStore', 'supremeOverLord'],
     },
     createdAt: {
         type: Date,
@@ -42,7 +34,7 @@ const TokenSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    expiresAt: {
+    expiredAt: {
         type: Date,
     },
     valid: {
@@ -64,6 +56,18 @@ const TokenSchema = new Schema({
         city: { type: String },
         country: { type: String }
     },
+    ownership: {
+            ownerType: {
+                type: String,
+                enum: ["user", "store", "admin", "superadmin", "wishlist"],
+                default: "store",
+            },
+            ownerId: {
+                type: Schema.Types.ObjectId,
+                refPath: "ownership.ownerType", // Dynamic reference
+                required: true,
+            },
+        },
     // incorporate token blacklisting via version control ( if the version is 2, the token is 
     // invalid), JTI blacklisting (adding a specific users tokens jti to a blacklist), and 
     // location blacklisting

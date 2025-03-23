@@ -1,5 +1,5 @@
 // Initialize the DynamoDB client
-const GTableName = process.env.GTABLE;
+export const GTableName = process.env.GTABLE;
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -10,7 +10,7 @@ const GTableName = process.env.GTABLE;
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
-const paramsGTable = {
+export const paramsGTable = {
     TableName: GTableName,
     KeySchema: [
         { AttributeName: 'userId', KeyType: 'HASH' },      // Partition key: userId
@@ -225,8 +225,6 @@ const paramsGTable = {
     ]
 };
 
-
-export default { paramsGTable, GTableName };
 
 // Benefits of This Structure:
 // 1. **Persistent State with `stateId`**: With `stateId` as the sort key, user data within `stateId` can be retrieved even if the session changes, allowing continuous access to the state.

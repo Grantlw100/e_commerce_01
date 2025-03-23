@@ -5,8 +5,9 @@ const tdUserCart = `
         updatedAt: Date
         orderedAt: Date
         abandoned: Boolean
-        userId: User
-        products: [Product]
+        abandonedAt: Date
+        ownership: Ownership
+        products: [ProductList]
         total: Float
     }
 
@@ -15,24 +16,18 @@ const tdUserCart = `
         updatedAt: Date
         orderedAt: Date
         abandoned: Boolean
-        userId: ID
-        products: [ID]
+        ownership: OwnershipInput
+        products: [ProductListInput]
         total: Float
     }
 
-    type Query {
-        getUserCarts: [UserCart]
-        getUserCartById(id: ID!): UserCart
-        getUserCartByUserId(userId: ID!): UserCart
-        getUserCartsByProductId(productId: ID!): [UserCart]
-        
+    extend type Query {
+        getUserCart(id: ID!): UserCart
     }
 
-    type Mutation {
+    extend type Mutation {
         createUserCart(userCart: UserCartInput): UserCart
-        UserCartupdateUserCart(id: ID!, userCart: UserCartInput): UserCart
-        updateUserCartByUserId(userId: ID!, userCart: UserCartInput): UserCart
-        updateUserCartByProductId(productId: ID!, userCart: UserCartInput): UserCart
+        updateUserCart(id: ID!, userCart: UserCartInput): UserCart
         deleteUserCart(id: ID!): UserCart
     }
 
@@ -40,3 +35,10 @@ const tdUserCart = `
 
 export default tdUserCart;
 
+// getUserCarts: [UserCart]UserCart
+        // getUserCartByUserId(userId: ID!): UserCart
+        // getUserCartsByProductId(productId: ID!): [UserCart]
+        // UserCartupdateUserCart(id: ID!, userCart: UserCartInput): UserCart
+        // updateUserCartByUserId(userId: ID!, userCart: UserCartInput): UserCart
+        // updateUserCartByProductId(productId: ID!, userCart: UserCartInput): UserCart
+        // deleteUserCart(id: ID!): UserCart

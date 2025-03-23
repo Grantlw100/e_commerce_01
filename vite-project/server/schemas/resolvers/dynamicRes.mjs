@@ -19,20 +19,20 @@ const dynamicResolvers = {
     Query: {
 // PUBLIC ACCESS QUERIES
     // get a single entity by ii and return only the specified fields
-            getPublicEntity: async (_, args, context) => {
-                const { entity, id, fields } = args;
+        getPublicEntity: async (_, args, context) => {
+            const { entity, id, fields } = args;
 
-                const userRole = context.user?.role || "user";
+            const userRole = context.user?.role || "user";
 
-                const allowedFields = fieldFilter(entity, userRole, fields);
+            const allowedFields = fieldFilter(entity, userRole, fields);
 
-                return queryEntities({
-                    entity,
-                    id,
-                    allowedFields,
-                });
+            return queryEntities({
+                entity,
+                id,
+                allowedFields,
+            });
 
-            },
+        },
 
 
 // get multiple entities with filtration, sorting, and pagination
@@ -239,6 +239,8 @@ const dynamicResolvers = {
               return errorMessage;
             }
           },
+
+
 
 
 

@@ -8,6 +8,8 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndex]
+        layouts: [LayoutList]
+        ownership: Ownership
     }
 
     input KeywordInput {
@@ -17,6 +19,8 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndexInput]
+        layouts: [LayoutListInput]
+        ownership: OwnershipInput
     }
 
     type Season {
@@ -29,6 +33,8 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndex]
+        layouts: [LayoutList]
+        ownership: Ownership
     }
 
     input SeasonInput {
@@ -40,6 +46,8 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndexInput]
+        layouts: [LayoutListInput]
+        ownership: OwnershipInput
     }
 
     type Promotion {
@@ -53,6 +61,9 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndex]
+        layouts: [LayoutList]
+        ownership: Ownership
+        promocodes: [Token]
     }
 
     input PromotionInput {
@@ -65,6 +76,9 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndexInput]
+        layouts: [LayoutListInput]
+        ownership: OwnershipInput
+        promocodes: [ID]
     }
 
     type Category {
@@ -75,6 +89,8 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndex]
+        layouts: [LayoutList]
+        ownership: Ownership
     }
 
     input CategoryInput {
@@ -84,24 +100,18 @@ const tdProductDetail = `
         createdAt: Date
         updatedAt: Date
         colors: [ColorsIndexInput]
+        layouts: [LayoutListInput]
+        ownership: OwnershipInput
     }
 
-    type Query {
-        getKeywords: [Keyword]
-        getKeywordById(id: ID!): Keyword
-        getFilteredKeywords(name: String, before: Date, after: Date): [Keyword!]!
-        getSeasons: [Season]
-        getSeasonById(id: ID!): Season
-        getFilteredSeasons(name: String, before: Date, after: Date): [Season!]!
-        getPromotions: [Promotion]
-        getPromotionById(id: ID!): Promotion
-        getFilteredPromotions(name: String, discount: Number, before: Date, after: Date): [Promotion!]!
-        getCategories: [Category]
-        getCategoryById(id: ID!): Category
-        getFilteredCategories(name: String, before: Date, after: Date): [Category!]!
+    extend type Query {
+        getKeyword: [Keyword]
+        getSeason: [Season]
+        getPromotion: [Promotion]
+        getCategory: [Category]
     }
 
-    type Mutation {
+    extend type Mutation {
         createKeyword(keyword: KeywordInput): Keyword
         updateKeyword(id: ID!, keyword: KeywordInput): Keyword
         deleteKeyword(id: ID!): Keyword
@@ -118,3 +128,15 @@ const tdProductDetail = `
 `;
 
 export default tdProductDetail;
+
+// getKeywordById(id: ID!): Keyword
+//         getFilteredKeywords(name: String, before: Date, after: Date): [Keyword!]!
+//         getSeasons: [Season]
+//         getSeasonById(id: ID!): Season
+//         getFilteredSeasons(name: String, before: Date, after: Date): [Season!]!
+//         getPromotions: [Promotion]
+//         getPromotionById(id: ID!): Promotion
+//         getFilteredPromotions(name: String, discount: Number, before: Date, after: Date): [Promotion!]!
+//         getCategories: [Category]
+//         getCategoryById(id: ID!): Category
+//         getFilteredCategories(name: String, before: Date, after: Date): [Category!]!

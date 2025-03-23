@@ -35,10 +35,22 @@ const reviewSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    product: {
+    product: [{
+        product: {
+            type: Schema.Types.ObjectId,
+            ref: 'Product',
+        },
+        index: {
+            type: Number
+        },
+        count: {
+            type: Number,
+            default: 1,
+        },
+    }],
+    store: {
         type: Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true,
+        ref: 'Store',
     },
     rating: {
         type: Number,
@@ -47,7 +59,12 @@ const reviewSchema = new Schema({
         max: 5,
     },
     images: [{
-        type: String,
+        photo: {
+            type: String,
+        },
+        index: {
+            type: Number,
+        },
     }],
 });
 

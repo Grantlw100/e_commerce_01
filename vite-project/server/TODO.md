@@ -1,6 +1,60 @@
 ## Important Notes
 Declaring a function must be done before the function can be exported. This is due to the way that the code is compiled. The function needs to exist so other modules can use it. Exporting the function at the same time as creating the function does nothing but cause issues. 
 
+## Models 
+
+Finish updating the implementing the events model with the remaining pre-existing models.
+
+Create background job processors (cron jobs, queue system) to process pendinging events at the proper time.
+
+implement middleware to auto trigger responses when conditions are met. 
+
+
+## Resolvers
+
+### Saving a new item 
+```javascript
+// resolvers.js
+
+// better for performance optimizatoin 
+const doc = await Mode.create({ name: 'doc' });
+
+// creates and saves document in one step
+// returns a fully populated document 
+// performs validation automatically 
+
+// best for 
+    // need to insert a nenw doc qickly 
+    // dont need to modify fields before saving
+
+// not best for
+    // need to modify fields before saving
+    // need to insert multiple docs at once
+    // need to know if the doc was saved successfully
+
+// better for validation and structure
+new Model(values).save();
+
+// creates a mongoose document instance first before saving 
+// allows modification before saving 
+// trigger mongoose middleware 
+// perform validation automatically before inserting the docuemtn 
+// more control over the document 
+
+// best for 
+    // need to modify the document before saving 
+    // need to run the instance methods or mongoose hooks
+    // need more flexibillty in how the document is processed before insertion
+```
+
+### S3 and Express 
+
+Maintain s3 routes using express to reduce graphql server activity and to ensure that the server is not bogged down by file uploads.
+
+Also better for security as the s3 bucket can be locked down to only allow uploads from the server.
+
+
+
 
 ## Need to finish serverside middleware to ensure everything functions as it is intended to.
 
@@ -264,7 +318,7 @@ const Query = new GraphQLObjectType({
 ```javascript
 directive @complexity(value: Int) on FIELD_DEFINITION
 
-type Query {
+extend type Query {
   users(limit: Int): [User] @complexity(value: 10)
 }
 
@@ -286,7 +340,7 @@ directive @complexity(multiplicator: Int) on FIELD_DEFINITION
 
 # if 5 users are requested the complexity will be 5(users * 2(directive)
 
-type Query {
+extend type Query {
   users(limit: Int): [User] @complexity(multiplicator: 2)
 }
 ```
@@ -307,7 +361,7 @@ type ChildType {
     a: String @complexity(value: 1)
 }
 
-type Query {
+extend type Query {
     someField: String @complexity(value: 5)
     listScalar(limit: Int): String @complexity(value: 2, multipliers: ["limit"])
     multiLevelMultiplier(filter: Filter): String @complexity(value: 1, multipliers: ["filter.limit"])
@@ -440,7 +494,7 @@ directive @complexity(
   multipliers: [String!]
 ) on FIELD_DEFINITION
 
-type Query {
+extend type Query {
   products(limit: Int): [Product] 
     @complexity(value: 2, multipliers: ["limit"])
 }
@@ -468,3 +522,215 @@ Context only exists in memory and is not held for long periods of time. context 
 all resolvers that need context can read from it
 
 each resolver is given a reference to the same context object for that request
+
+
+## Joi Validator
+
+Joi is a powerful schema description language and data validator for JavaScript. Joi allows you to create blueprints or schemas for JavaScript objects to ensure validation of key information.
+
+### Usage
+```javascript
+const Joi = require('joi');
+
+const schema = Joi.object({
+    username: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .required(),
+
+    password: Joi.string()
+        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+
+    repeat_password: Joi.ref('password'),
+
+    access_token: [
+        Joi.string(),
+        Joi.number()
+    ],
+
+    birth_year: Joi.number()
+        .integer()
+        .min(1900)
+        .max(2013),
+
+    email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+})
+    .with('username', 'birth_year')
+    .xor('password', 'access_token')
+    .with('password', 'repeat_password');
+
+// Return result.
+const result = schema.validate({ username: 'abc', birth_year: 1994 });
+// result.error === null -> valid
+
+// You can also pass a callback which will be called synchronously with the validation result.
+schema.validate({ username: 'abc', birth_year: 1994 }, function (err, value) { });
+
+// Or use async/await.
+try {
+    const value = await schema.validateAsync({ username: 'abc', birth_year: 1994 });
+}
+catch (err) { }
+```
+
+### API
+- **Joi.any()** - matches any type
+- **Joi.array()** - matches an array type
+- **Joi.boolean()** - matches a boolean type
+- **Joi.binary()** - matches a binary type
+- **Joi.date()** - matches a date type
+- **Joi.function()** - matches a function type
+- **Joi.number()** - matches a number type
+- **Joi.object()** - matches an object type
+- **Joi.string()** - matches a string type
+- **Joi.alternatives()** - matches one of the provided alternatives
+- **Joi.array()** - matches an array type
+- **Joi.binary()** - matches a binary type
+- **Joi.boolean()** - matches a boolean type
+- **Joi.date()** - matches a date type
+- **Joi.function()** - matches a function type
+- **Joi.number()** - matches a number type
+
+### Rules
+- **Joi.allow(value)** - allows a value
+- **Joi.alphanum()** - requires the string to only contain a-z, A-Z, and 0-9
+- **Joi.email()** - requires the string to be an email
+- **Joi.equal(value)** - requires the value to be equal to the provided value
+- **Joi.invalid(value)** - requires the value to not be equal to the provided value
+- **Joi.max(limit)** - requires the value to be less than or equal to the provided limit
+- **Joi.min(limit)** - requires the value to be greater than or equal to the provided limit
+- **Joi.required()** - requires the key to be present
+- **Joi.valid(value)** - requires the value to be one of the provided values
+- **Joi.regex(RegExp)** - requires the value to match the provided regular expression
+- **Joi.uri()** - requires the value to be a valid URI
+- **Joi.uuid()** - requires the value to be a valid UUID
+
+### Modifiers
+- **Joi.default(value)** - sets a default value
+- **Joi.forbidden()** - marks the key as forbidden
+- **Joi.optional()** - marks the key as optional
+- **Joi.strip()** - removes the key from the object
+- **Joi.when(condition, options)** - creates a conditional schema
+
+### Validation
+- **Joi.validate(value, schema, [options], [callback])** - validates a value against a schema
+- **Joi.validateAsync(value, schema, [options])** - validates a value against a schema asynchronously
+- **Joi.compile(schema)** - compiles a schema
+- **Joi.describe(schema)** - describes a schema
+
+### Errors
+- **Joi.ValidationError** - the error thrown when a validation fails
+- **Joi.isError(err)** - checks if an error is a Joi error
+- **Joi.assert(value, schema, [message])** - asserts that a value matches a schema
+- **Joi.attempt(value, schema, [message])** - validates a value against a schema and throws if the value is invalid
+
+### Extensions
+- **Joi.extend(extension)** - extends Joi with custom rules
+
+### Current Tasks
+
+Right now i need to create a subInputs joi file which will house all of my shared inputs that can and will be used across files. 
+
+I can simultaneously reduce the amount of sub inputs i will need and make sure that the inputs are being used correctly and without the same input being used but with a different name
+
+### useJoiValidation    
+
+The function is designed specifically for the sake of validating inputs directly from the GraphQL AST.
+
+This is why it is written in the wackiest way possible. 
+
+```json
+// How data looks per request 
+{
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { value: "createStore" },
+      variableDefinitions: [
+        {
+          variable: { name: { value: "store" } },
+          type: { kind: "NamedType", name: { value: "StoreInput" } }
+        }
+      ]
+    }
+  ]
+}
+```
+
+```javascript
+// How the function is used
+
+
+export const useJoiValidation = (validationSchemas) => {
+  return {
+    onPluginInit({ addSchema }) {
+            // The lifecycle method is triggered during the servers initialization 
+                // dynamically iterates over all validation schemas 
+                // adds each schema to the graphql schema using addSchema 
+      // Dynamically add all provided schemas
+      Object.values(validationSchemas).forEach((schema) => {
+        if (schema) {
+          addSchema(schema);
+        }
+      });
+    },
+    onExecute({ args }) {
+        // The lifecycle method is triggered during the execution of a query or mutation
+            // document: contains the parsed query or mutation from graphql
+            // variableValues: contains the variables passed to the query or mutation
+      const { document, variableValues } = args;
+
+        // Iterate through all operations in the document
+        // loops through the operations in the document 
+        // extracts the operation name (operationName
+      for (const definition of document.definitions) {
+        if (definition.kind === 'OperationDefinition') {
+          const operationName = definition.name?.value;
+
+          // Iterate through the operation's variable definitions
+            // loops through the variables defined in the operation 
+            // extracts the variable name (varName) and type (varType)
+          for (const variable of definition.variableDefinitions || []) {
+            const varName = variable.variable.name.value; // The name of the variable
+            const varType = variable.type.name?.value; // The GraphQL type of the variable
+
+            // Validate the variable against the corresponding Joi schema
+            // Checks if a joi schema exists for the variable type ( varType )
+                // Validates the variable's value (variableValues[varName]) against the schema
+                // if validation fails, it throws an error with detailed messages 
+            if (validationSchemas[varType] && variableValues?.[varName]) {
+              const { error } = validationSchemas[varType].validate(
+                variableValues[varName],
+                { abortEarly: false }
+              );
+
+              if (error) {
+                throw new Error(
+                  `Validation failed for ${operationName}: ${error.details
+                    .map((detail) => detail.message)
+                    .join(', ')}`
+                );
+              }
+            }
+          }
+        }
+      }
+    },
+  };
+};
+
+
+
+```
+
+# GRANT
+## YOU LEFT OFF HERE
+
+I am in the process of updating the joi validators to match the models and typedef schema. 
+
+I just noticed that i could possibly use the ImageIndexInput type to validate the images that are being uploaded in every other model. I need to refactor the Product so the Add on Images and the product images use an index to go with the photos so stores can curate the order at which images appear. 
+

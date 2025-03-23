@@ -1,20 +1,43 @@
 // import { gql } from 'apollo-server-express';
 
+
+    // when a order is made, the products are ordered from the right stores
+
+// refundOrder
+    // when a order is refunded, the products are returned to the right stores  
+
+// ShippingMerger 
+    // merge the cost of shipping for the products ordered from different stores
+    // merge all the trackingNumbers into one package 
+
+// OrderDiscount
+    // apply discount to the order
+
+    
+// OrderFromRightStores
+
+
 const tdOrder = /*gql*/`
     type Order {
         id: ID!
-        userId: [User]!
-        products: [Product!]!
         createdAt: Date!
         updatedAt: Date!
-        orderDate: Date!
+        orderedAt: Date!
         orderStatus: String!
+        ownership: Ownership
+        orderedFrom: [OrderedFrom]
+        products: [ProductList]
         total: Float!
         subtTotal: Float!
         tax: [OrderTax]
+        discounts: [OrderDiscount]
         trackingNumber: String
         shippingDetails: ShippingDetails
-        discounts: [Discount]
+    }
+
+    type OrderedFrom {
+        storeId: ID
+        product: [ID]
     }
 
     type OrderTax {
@@ -28,13 +51,14 @@ const tdOrder = /*gql*/`
         shippedDate: Date
         shippingMethod: String
         shippingCost: Float
-        address: String
+        address1: String
+        address2: String
         city: String
         state: String
         zip: String
     }
 
-    type Discount {
+    type OrderDiscount {
         type: String
         amount: Float
         code: String
@@ -42,17 +66,19 @@ const tdOrder = /*gql*/`
     }
 
     input OrderInput {
-        userId: ID!
-        products: [ID!]!
+        products: [ProductListInput]!
         createdAt: Date!
         updatedAt: Date
         orderDate: Date!
         orderStatus: String!
+        ownership: OwnershipInput
+        orderedFrom: [OrderedFromInput]
         total: Number!
         subtTotal: Number!
         tax: [TaxInput]
         trackingNumber: String
         shippingDetails: ShippingDetailsInput
+        discounts: [OrderDiscountInput]
     }
 
     input ShippingDetailsInput {
@@ -60,10 +86,16 @@ const tdOrder = /*gql*/`
         shippedDate: Date
         shippingMethod: String
         shippingCost: Number
-        address: String
+        address1: String
+        address2: String
         city: String
         state: String
         zip: String
+    }
+
+    input OrderedFromInput {
+        storeId: ID
+        products: [ID]
     }
 
     input TaxInput {
@@ -72,21 +104,21 @@ const tdOrder = /*gql*/`
         amount: Number
     }
 
-    input DiscountInput {
+    input OrderDiscountInput {
         type: String
         amount: Number
         code: String
         promotions: [ID]
     }
 
-    type Query {
-       orderUpdate(id: ID!): Order
+    extend type Query {
+       getOrder(id: ID!): Order
     }
 
-    type Mutation {
-        refundOrder(id: ID!): Order
-        chargeOrder(id: ID!): Order
-        editOrder(id: ID!, order: OrderInput): Order
+    extend type Mutation {
+        createOrder(order: OrderInput): Order
+        updateOrder(id: ID!, order: OrderInput): Order
+        deleteOrder(id: ID!): Order
     }
 
 `;
